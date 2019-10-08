@@ -1,0 +1,7 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: inherit; }
+
+html { font-size: .625rem; box-sizing: border-box; }
+
+body { font-size: 1.6rem; padding: 25px 35px; }
+
+.navbar { display: block; /*width*/ }

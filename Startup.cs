@@ -59,6 +59,14 @@ namespace BookMania
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // To trigger browswer link on code restart
+            try
+            {
+                System.IO.File.WriteAllText("browsersync-update.txt", DateTime.Now.ToString());
+            }
+            catch
+            {}
         }
     }
 }
