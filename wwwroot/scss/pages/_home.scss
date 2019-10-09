@@ -45,10 +45,20 @@
         padding: 12px 30px;
         background-color: #FFF;
         color: #07080C;
-        box-shadow: 0 3px 15px -5px rgba(0,0,0,.2);
+        box-shadow: 0 3px 15px -5px rgba(0,0,0,.3);
         cursor: pointer;
         text-decoration: none;
         display: inline-block;
+        transition: all .1s ease;
+
+        &:hover {
+            box-shadow: 0 3px 15px -5px rgba(0,0,0, .1);
+        }
+
+        &:active {
+            transform: translateY(1.5px);
+            box-shadow: 0 2px 2px -1px rgba(0, 0, 0, .1);
+        }
     }
 }
 
@@ -86,7 +96,9 @@
 
     .block-1 {
         background: rgb(254,79,92);
-        background: linear-gradient(135deg, rgba(254,79,92,1) 0%, rgba(254,113,99,1) 70%, rgba(255,123,97,1) 70%, rgba(255,123,97,1) 100%);
+        background: linear-gradient(135deg, rgba(254,79,92,1) 0%, 
+            rgba(254,113,99,1) 70%, rgba(255,123,97,1) 70%, 
+            rgba(255,123,97,1) 100%);
         width: 60%;
     }
 
@@ -97,6 +109,8 @@
             url(../images/blob-shape-2.svg) -29px -41%/308% no-repeat, 
             linear-gradient(180deg, #8982db 0%, #6660dd 100%);
         width: 40%;
+
+        animation: backgroundImages 20s linear alternate infinite;
     }
 }
 
@@ -105,15 +119,57 @@
     position: relative;
     transform: translateX(35px);
     /*margin-left: 30px;*/
-    animation: bounceRight 1.8s alternate infinite;
+    animation: bounceRight 2.8s ease-in-out alternate infinite;
 }
 
 @keyframes bounceRight {
-    from {
+    0% {
         transform: translateX(35px);
     }
-
-    to {
+    
+    85% {
         transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes backgroundImages {
+    0% {
+        background-position: -33px 123%, -29px -41%, 0 0;
+        /*background-size: 219%, 308%, 100%;*/
+        /*transform: rotate(0), rotate(0), rotate(0);*/
+    }
+
+    20% {
+        background-position: -52px 110%, -59px -21%, 0 0;
+        /*background-size: 239%, 268%, 100%;*/
+        /*transform: rotate(100deg), rotate(-180deg), rotate(0);*/
+    }
+
+    40% {
+        background-position: -72px 100%, -89px -21%, 0 0;
+        /*background-size: 219%, 260%, 100%;*/
+        /*transform: rotate(200deg), rotate(-200deg), rotate(0);*/
+    }
+
+    60% {
+        background-position: -52px 100%, -119px 0%, 0 0;
+        /*background-size: 200%, 250%, 100%;*/
+        /*transform: rotate(10deg), rotate(-240deg), rotate(0);*/
+    }
+
+    80% {
+        background-position: -32px 80%, -149px -11%, 0 0;
+        /*background-size: 180%, 280%, 100%;*/
+        /*transform: rotate(100deg), rotate(-300deg), rotate(0);*/
+    }
+
+    100% {
+        background-position: 0px 100%, -149px -30%, 0 0;
+        /*background-size: 219%, 308%, 100%;*/
+        /*transform: rotate(45deg), rotate(-45deg), rotate(0);*/
     }
 }
