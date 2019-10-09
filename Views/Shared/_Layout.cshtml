@@ -25,41 +25,58 @@
     <header>
         <nav class="navbar">
             <div class="navbar__logo">
-                <i class="far fa-bookmark"></i> Book<span style="color: #FA2E1F">Mania</span>
+                <i class="far fa-bookmark"></i> Book<span>Mania</span>
+            </div>
+            <form action="/" method="get" class="navbar__search-group">
+                <select class="navbar__categories" name="categories">
+                    <option value="0">All</option>
+                    <option value="1">Horror</option>
+                    <option value="2">Biography</option>
+                    <option value="3">Action and adventure </option>
+                    <option value="4">Fantasy</option>
+                </select>
+                <input type="search" name="query" autocomplete="off" placeholder="Search Thousands of Books..." />
+                <button class="navbar__search-btn" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <div class="navbar__nav-links">
+                <div class="nav-links-container">
+                    <a href="#" title="Favourites" class="nav-icon"><i class="far fa-heart"></i></a>
+                    <a href="#" title="SignIn/Register" class="nav-icon"><i class="fas fa-sign-in-alt"></i></a>
+                    <a href="#" title="View Cart" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
+                </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        @*<partial name="_CookieConsentPartial" />*@
         <main role="main">
             @RenderBody()
         </main>
+        <footer class="border-top footer text-muted">
+            @*<div class="container">
+                    &copy; 2019 - BookMania - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>*@
+        </footer>
     </div>
 
-    <footer class="border-top footer text-muted">
-        @*<div class="container">
-            &copy; 2019 - BookMania - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>*@
-    </footer>
 
     @*<environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
-        </script>
-    </environment>*@
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+            </script>
+        </environment>*@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)

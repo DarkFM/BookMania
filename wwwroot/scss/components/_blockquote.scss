@@ -1,0 +1,19 @@
+﻿.blockquote {
+    font-weight: lighter;
+    font-size: 1.6rem;
+
+    &__quote {
+        font-size: 3.2rem;
+        line-height: 1.4;
+        max-width: 30ch;
+    }
+
+    &__cite {
+        background: transparent url(../images/icons8-get-quote-80.png) no-repeat;
+        background-size: contain;
+        padding-left: 35px;
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-top: 25px;
+    }
+}

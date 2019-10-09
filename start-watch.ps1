@@ -16,8 +16,8 @@ $dotnetwatchJOB = start-jobhere($DotnetWatch);
 Start-Sleep -s 10
 $gulpJOB = start-jobhere($GulpJob);
 
-Write-Host "BrowserLink and Gulp Sass started"
-Write-Host "Dotnet Watch started"
+Write-Host "BrowserSync and Gulp-Sass started"
+Write-Host "Dotnet Watch Run started"
 Write-Host "Press Ctrl + C to terminate..."
 
 # wait till terminating command Ctrl+C is issued
@@ -31,7 +31,7 @@ while ($true)
 
         if (($key.modifiers -band [consolemodifiers]"control") -and ($key.key -eq "C"))
         {
-            "Terminating..."
+            "Terminating Processes. Please wait..."
             Stop-Job -Id $dotnetwatchJOB.Id, $gulpJOB.Id
             break
         }
