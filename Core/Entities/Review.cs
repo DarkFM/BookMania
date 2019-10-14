@@ -1,11 +1,8 @@
-﻿using BookMania.Core.Entities.UserAggregate;
-using BookMania.Infrastructure.Data;
+﻿using BookMania.Core.Entities.BookAggregate;
+using BookMania.Core.Entities.UserAggregate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace BookMania.Core.Entities.BookAggregate
+namespace BookMania.Core.Entities
 {
     public class Review
     {

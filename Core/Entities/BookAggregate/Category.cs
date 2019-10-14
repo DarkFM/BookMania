@@ -1,11 +1,7 @@
-﻿using BookMania.Core.Entities.BookAggregate;
-using BookMania.Core.Extensions;
-using System;
+﻿using BookMania.Core.Extensions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace BookMania.Core.Entities
+namespace BookMania.Core.Entities.BookAggregate
 {
     public class Category // ValueObject
     {
@@ -20,6 +16,7 @@ namespace BookMania.Core.Entities
             Name = name;
         }
 
+        public int Id { get; private set; }
         public string Name { get; set; }
         public ICollection<BookCategory> BookCategories { get; set; }
     }

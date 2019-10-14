@@ -14,6 +14,7 @@ namespace BookMania.Infrastructure.Data.Config
             // adds a shadow property to the application user on the order entity
             builder.HasOne(o => o.User)
                 .WithMany(user => user.Orders)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
 
             // https://docs.microsoft.com/en-us/ef/core/modeling/owned-entities#storing-owned-types-in-separate-tables

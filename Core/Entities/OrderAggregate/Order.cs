@@ -30,7 +30,7 @@ namespace BookMania.Core.Entities.OrderAggregate
             _orderItems = orderItems;
         }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public ApplicationUser User { get; set; }
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
         public Address ShipToAddress { get; private set; }

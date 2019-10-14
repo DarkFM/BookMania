@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookMania.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20191012200122_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20191013073251_AddUniqueContraintsOnPublishersAndCategoriesTables")]
+    partial class AddUniqueContraintsOnPublishersAndCategoriesTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,30 +64,24 @@ namespace BookMania.Infrastructure.Data.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.BookAuthor", b =>
+            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.Category", b =>
                 {
-                    b.Property<int>("AuthorId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("Key", 0)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
 
-                    b.HasKey("AuthorId", "BookId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("Name")
+                        .IsUnique();
 
-                    b.ToTable("BookAuthors");
-                });
-
-            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.BookCategory", b =>
-                {
-                    b.Property<int>("CategoryId");
-
-                    b.Property<int>("BookId");
-
-                    b.HasKey("CategoryId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("BookCategories");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.Publisher", b =>
@@ -102,10 +96,69 @@ namespace BookMania.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.Review", b =>
+            modelBuilder.Entity("BookMania.Core.Entities.BookAuthor", b =>
+                {
+                    b.Property<int>("AuthorId");
+
+                    b.Property<int>("BookId");
+
+                    b.HasKey("AuthorId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookAuthors");
+                });
+
+            modelBuilder.Entity("BookMania.Core.Entities.BookCategory", b =>
+                {
+                    b.Property<int>("CategoryId");
+
+                    b.Property<int>("BookId");
+
+                    b.HasKey("CategoryId", "BookId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookCategories");
+                });
+
+            modelBuilder.Entity("BookMania.Core.Entities.Favorite", b =>
+                {
+                    b.Property<int>("BookId");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("BookId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Favorites");
+                });
+
+            modelBuilder.Entity("BookMania.Core.Entities.OrderAggregate.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("OrderDate");
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("BookMania.Core.Entities.Review", b =>
                 {
                     b.Property<int>("BookId");
 
@@ -121,40 +174,6 @@ namespace BookMania.Infrastructure.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("BookMania.Core.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("Key", 0)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("BookMania.Core.Entities.OrderAggregate.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("OrderDate");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("BookMania.Core.Entities.UserAggregate.ApplicationUser", b =>
@@ -211,19 +230,6 @@ namespace BookMania.Infrastructure.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("BookMania.Core.Entities.UserAggregate.Favorite", b =>
-                {
-                    b.Property<int>("BookId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("BookId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("BookMania.Core.Entities.UserAggregate.PaymentDetails", b =>
@@ -319,7 +325,7 @@ namespace BookMania.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.BookAuthor", b =>
+            modelBuilder.Entity("BookMania.Core.Entities.BookAuthor", b =>
                 {
                     b.HasOne("BookMania.Core.Entities.BookAggregate.Author", "Author")
                         .WithMany("BookAuthors")
@@ -332,28 +338,28 @@ namespace BookMania.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.BookCategory", b =>
+            modelBuilder.Entity("BookMania.Core.Entities.BookCategory", b =>
                 {
                     b.HasOne("BookMania.Core.Entities.BookAggregate.Book", "Book")
                         .WithMany("BookCategories")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("BookMania.Core.Entities.Category", "Category")
+                    b.HasOne("BookMania.Core.Entities.BookAggregate.Category", "Category")
                         .WithMany("BookCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BookMania.Core.Entities.BookAggregate.Review", b =>
+            modelBuilder.Entity("BookMania.Core.Entities.Favorite", b =>
                 {
                     b.HasOne("BookMania.Core.Entities.BookAggregate.Book", "Book")
-                        .WithMany("Reviews")
+                        .WithMany("Favorites")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BookMania.Core.Entities.UserAggregate.ApplicationUser", "User")
-                        .WithMany("Reviews")
+                        .WithMany("Favorites")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -452,6 +458,19 @@ namespace BookMania.Infrastructure.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BookMania.Core.Entities.Review", b =>
+                {
+                    b.HasOne("BookMania.Core.Entities.BookAggregate.Book", "Book")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BookMania.Core.Entities.UserAggregate.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("BookMania.Core.Entities.UserAggregate.ApplicationUser", b =>
                 {
                     b.OwnsOne("BookMania.Core.Entities.OrderAggregate.Address", "ShippingAddress", b1 =>
@@ -481,19 +500,6 @@ namespace BookMania.Infrastructure.Data.Migrations
                                 .HasForeignKey("BookMania.Core.Entities.OrderAggregate.Address", "ApplicationUserId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
-                });
-
-            modelBuilder.Entity("BookMania.Core.Entities.UserAggregate.Favorite", b =>
-                {
-                    b.HasOne("BookMania.Core.Entities.BookAggregate.Book", "Book")
-                        .WithMany("Favorites")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("BookMania.Core.Entities.UserAggregate.ApplicationUser", "User")
-                        .WithMany("Favorites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BookMania.Core.Entities.UserAggregate.PaymentDetails", b =>

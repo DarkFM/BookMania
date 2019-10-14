@@ -148,7 +148,7 @@ namespace BookMania.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
                     OrderDate = table.Column<DateTimeOffset>(nullable: false)
                 },
                 constraints: table =>

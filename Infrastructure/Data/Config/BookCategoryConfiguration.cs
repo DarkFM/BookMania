@@ -1,4 +1,5 @@
-﻿using BookMania.Core.Entities.BookAggregate;
+﻿using BookMania.Core.Entities;
+using BookMania.Core.Entities.BookAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

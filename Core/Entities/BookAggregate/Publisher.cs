@@ -9,7 +9,7 @@ namespace BookMania.Core.Entities.BookAggregate
         {
         }
 
-        public Publisher(string name, List<Book> books)
+        public Publisher(string name, List<Book> books = default)
         {
             name.ThrowIfNullOrWhiteSpace($"{nameof(name)} cannot be null/whitespace");
 
@@ -17,6 +17,6 @@ namespace BookMania.Core.Entities.BookAggregate
             Books = books;
         }
         public string Name { get; set; }
-        public ICollection<Book> Books { get; set; }
+        public ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }

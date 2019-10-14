@@ -1,10 +1,6 @@
-﻿using BookMania.Core.Entities.BookAggregate;
+﻿using BookMania.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookMania.Infrastructure.Data.Config
 {

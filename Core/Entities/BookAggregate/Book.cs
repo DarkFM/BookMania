@@ -13,26 +13,17 @@ namespace BookMania.Core.Entities.BookAggregate
         {
         }
 
-        public Book(string title, decimal price, DateTime publishedDate, int publisherId, List<BookAuthor> bookAuthors)
-            : this(title, price, publishedDate, publisherId, bookAuthors, new List<Favorite>())
-        {
-
-        }
-
-        public Book(string title, decimal price, DateTime publishedDate, int publisherId, List<BookAuthor> bookAuthors,
-            List<Favorite> favorites, string description = null, string imageUrl = null)
+        public Book(string title, decimal price, DateTime publishedDate, Publisher publisher, string description = null, string imageUrl = null)
         {
             title.ThrowIfNullOrWhiteSpace($"{nameof(title)} cannot be null/white-space");
-            bookAuthors.ThrowIfNullOrEmpty($"{nameof(bookAuthors)} cannot be null/empty");
-            
+            publisher.ThrowIfNull($"A {nameof(Book)} must have a {nameof(publisher)}");
+
             Title = title;
             Price = price;
             PublishedDate = publishedDate;
-            PublisherId = publisherId;
-            BookAuthors = bookAuthors;
+            Publisher = publisher;
             Description = description;
             ImageUrl = imageUrl;
-            Favorites = favorites;
         }
 
         public string Title { get; set; }
@@ -43,10 +34,10 @@ namespace BookMania.Core.Entities.BookAggregate
         public string Description { get; set; }
         public string ImageUrl { get; set; }
 
-        public ICollection<BookAuthor> BookAuthors { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<BookCategory> BookCategories { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
+        public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
+        public ICollection<BookCategory> BookCategories { get; set; } = new List<BookCategory>();
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
     }
 }

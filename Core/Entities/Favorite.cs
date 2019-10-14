@@ -1,6 +1,7 @@
 ﻿using BookMania.Core.Entities.BookAggregate;
+using BookMania.Core.Entities.UserAggregate;
 
-namespace BookMania.Core.Entities.UserAggregate
+namespace BookMania.Core.Entities
 {
     public class Favorite
     {

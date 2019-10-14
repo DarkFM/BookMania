@@ -1,7 +1,6 @@
-﻿using BookMania.Core.Entities.UserAggregate;
+﻿using BookMania.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
 namespace BookMania.Infrastructure.Data.Config
 {

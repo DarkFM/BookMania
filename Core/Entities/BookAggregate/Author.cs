@@ -12,13 +12,11 @@ namespace BookMania.Core.Entities.BookAggregate
         {
         }
 
-        public Author(string name, List<BookAuthor> bookAuthors)
+        public Author(string name)
         {
             name.ThrowIfNullOrWhiteSpace($"{nameof(name)} cannot be null or whitespace");
-            bookAuthors.ThrowIfNullOrEmpty($"{nameof(bookAuthors)} cannot be null or whitespace");
 
             Name = name;
-            BookAuthors = bookAuthors;
         }
 
         public string Name { get; set; }
