@@ -1,0 +1,78 @@
+﻿.form {
+    /*background-color: $color-white;
+    color: $color-black;
+    width: 100%;
+    padding: 3.2rem 3rem;
+    border-radius: $global-border-radius;
+    box-shadow: 0 7px 2px rgba($color-black, .1);
+
+    @include responsive(mobile) {
+        margin-bottom: 6rem;
+    }*/
+
+    &__group {
+        position: relative;
+
+        :not(:last-child) {
+            margin-bottom: 1.5em;
+        }
+    }
+
+    &__label {
+        position: absolute;
+        transition: all .5s;
+    }
+
+    &__input {
+        font-weight: 600;
+        padding: 1.5rem 6rem 1.5rem 2.5rem;
+        border-radius: 5px;
+        display: block;
+        width: 100%;
+        /*border: 2px solid lighten($color-neutral-2, 15%);*/
+        font-family: inherit;
+        transition: border .2s ease;
+
+        &:focus {
+            /*border: 2px solid $color-neutral-2;*/
+        }
+    }
+
+    &__input:placeholder-shown ~ &__label {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    &__validation {
+        font-style: italic;
+        /*color: $color-primary-1;*/
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+        transform: translateY(-20px);
+        transition: all 0.4s;
+
+        &::after {
+            content: url("../images/icon-error.svg");
+            display: block;
+            position: absolute;
+            right: 20px;
+            top: -45px;
+        }
+    }
+
+    &__input:invalid + &__validation {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__input:invalid &__validation, &__input:valid + &__validation {
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+    }
+
+    [type="submit"] {
+        margin-bottom: 1.5rem;
+    }
+}

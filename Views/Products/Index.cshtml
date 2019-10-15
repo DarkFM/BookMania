@@ -1,0 +1,304 @@
+﻿@{
+    ViewData["Title"] = "Products";
+}
+
+<section class="container">
+    <header class="page-heading">
+        all products
+    </header>
+    <div class="product-list">
+        <header class="paging">
+            <span class="paging__count">2480 Items Found</span>
+            <span class="paging__sort">Sort <i class="fas fa-chevron-down"></i></span>
+        </header>
+        <div class="product-list__content">
+            <form class="left-panel">
+                <div class="accordion">
+                    <input id="panel-1" class="accordion__check" type="checkbox" hidden />
+                    <label for="panel-1" class="accordion__trigger">
+                        <span class="accordion__title">Categories</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </label>
+                    <div class="accordion__content">
+                        <label class="filter-option">
+                            <input type="checkbox" checked name="categories" value="0" />
+                            <span>All</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="fantasy" value="1" />
+                            <span>Fantasy</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="horror" value="2" />
+                            <span>Horror</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="categories" />
+                            <span>Action and Adventure</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <input id="panel-2" class="accordion__check" type="checkbox" hidden />
+                    <label for="panel-2" class="accordion__trigger">
+                        <span class="accordion__title">Publication Year</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </label>
+                    <div class="accordion__content">
+                        <label class="filter-option">
+                            <input type="checkbox" checked name="categories" value="0" />
+                            <span>All</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="fantasy" value="1" />
+                            <span>Fantasy</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="horror" value="2" />
+                            <span>Horror</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="categories" />
+                            <span>Action and Adventure</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <input id="panel-3" class="accordion__check" type="checkbox" hidden />
+                    <label for="panel-3" class="accordion__trigger">
+                        <span class="accordion__title">Authors</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </label>
+                    <div class="accordion__content">
+                        <label class="filter-option">
+                            <input type="checkbox" checked name="categories" value="0" />
+                            <span>All</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="fantasy" value="1" />
+                            <span>Fantasy</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="horror" value="2" />
+                            <span>Horror</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" name="categories" />
+                            <span>Action and Adventure</span>
+                        </label>
+                    </div>
+                </div>
+                <input type="submit" name="filter" class="btn btn--flat" value="Apply Filter" />
+            </form>
+            <section class="right-panel">
+                <div class="product-list__main">
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings" title="4/5">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings" title="4/5">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep, and More Title by my Man</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                    <div class="product">
+                        <div class="product__img">
+                            <img src="#" alt="Alternate Text" />
+                        </div>
+                        <div class="product__icons">
+                            <div class="product__ratings">
+                                <div class="star star-1"></div>
+                                <div class="star star-2"></div>
+                                <div class="star star-3"></div>
+                                <div class="star star-4"></div>
+                                <div class="star star-5"></div>
+                            </div>
+                            <div class="product__favorite">
+                                <img class="" src="~/images/heart-regular.svg" />
+                            </div>
+                        </div>
+                        <div class="product__info">
+                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                            <h5 class="product__author">Philip K. Dick</h5>
+                        </div>
+                        <div class="product__pricing">
+                            <span class="product__price">$12.60</span>
+                            <button class="btn btn--secondary">Select</button>
+                        </div>
+                    </div>
+                </div>
+                <footer class="product-list__footer">
+                    <a class="btn btn--secondary" href="#">Prev</a>
+                    <a class="btn btn--secondary" href="#">Next</a>
+                </footer>
+            </section>
+        </div>
+
+    </div>
+</section>

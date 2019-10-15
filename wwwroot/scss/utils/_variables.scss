@@ -1,3 +1,21 @@
 ﻿// Navbar variable
-$navbar-padding: 1rem 0;
-$navbar-logo-fontSize: 2.5rem
+$navbar-padding: 1.5rem 0;
+$navbar-logo-fontSize: 2.5rem;
+
+
+// Landing Page
+$landing-page_height: 75vh;
+$landing-page_width: 80%;
+
+// Base
+$root_font-size: .625rem; // ==> 10px
+
+$base_body_padding: 25px 35px;
+$base_body_max-width: 144rem;
+
+$default_font-size: 1.6rem;
+$default_bg-color: #f0f4fb;
+$default_font-family: Arial, Helvetica, sans-serif;
+
+// Colors
+$green-primary: linear-gradient(180deg, #1a7d89 0%, rgba(26, 125, 137, 0.961298) 100%);

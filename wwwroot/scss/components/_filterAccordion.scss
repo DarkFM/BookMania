@@ -1,0 +1,50 @@
+﻿.accordion {
+    $background-color: darken(#EAF2FD, 1.5%);
+
+    position: relative;
+    display: block;
+    background-color: $background-color;
+    border: none;
+    border-radius: 10px;
+    padding: 15px 13px;
+    font-weight: 500;
+
+    &__trigger {
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+
+        > .icon {
+            transition: transform .5s ease;
+        }
+    }
+
+    &__check:checked ~ &__content {
+        height: 150px;
+        padding-top: 20px;
+    }
+
+    &__check:checked + &__trigger > .icon {
+        transform: rotateX(180deg) translateY(1px);
+        perspective: 100px;
+    }
+
+    &__content {
+        height: 0;
+        overflow: hidden;
+        padding: 0;
+        display: flex;
+        flex-flow: column nowrap;
+        transition: height .5s ease, padding-top .5s ease;
+    }
+
+    .filter-option {
+        margin: 2px 0;
+        display: flex;
+        font-size: 1.4rem;
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    }
+}

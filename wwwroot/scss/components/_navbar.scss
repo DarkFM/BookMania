@@ -6,6 +6,8 @@
     padding: $navbar-padding;
     position: sticky;
     top: 0;
+    z-index: 10;
+    background-color: #f0f4fb;
 
     > * {
         flex: 1;
@@ -16,6 +18,8 @@
         display: flex;
         align-items: center;
         font-weight: bold;
+        text-decoration: none;
+        color: #000;
 
         i {
             margin-right: 10px;
@@ -33,6 +37,16 @@
         flex-grow: 2.3;
         color: #0D0C0B;
         outline: none;
+        transition: box-shadow .25s linear;
+
+        &:hover {
+            box-shadow: 0 2px 13px -7px rgba(0, 0, 0, 0.2);
+        }
+
+        & input[name='query']:active,
+        & input[name='query']:focus {
+            box-shadow: 0 2px 13px -7px rgba(0, 0, 0, 0.2);
+        }
 
         input[name='query'] {
             padding: 10px 70px 10px 180px;
