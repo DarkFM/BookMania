@@ -1,4 +1,5 @@
 ﻿using BookMania.Interfaces;
+using BookMania.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,17 +19,8 @@ namespace BookMania.Controllers
 
         public async Task<IActionResult> Index([FromQuery]FilterResponseViewModel viewModel)
         {
-            var catalogViewModel = await _catalogViewModelService.GetFilteredCatalogItemsAsync(0, viewModel.Categories, viewModel.Authors);
+            var catalogViewModel = await _catalogViewModelService.GetFilteredCatalogItemsAsync(0, viewModel);
             return View(catalogViewModel);
-        }
-
-        public class FilterResponseViewModel
-        {
-            [BindProperty(Name = "Category")]
-            public IEnumerable<int> Categories { get; set; } = new List<int>();
-
-            [BindProperty(Name = "Author")]
-            public IEnumerable<int> Authors { get; set; } = new List<int>();
         }
     }
 }

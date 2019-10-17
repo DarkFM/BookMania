@@ -20,7 +20,11 @@ namespace BookMania.Infrastructure.Data
 
         }
 
-        public Task<PaginatedList<Book>> GetFilteredBooksWithDataAsync(IEnumerable<int> categories, IEnumerable<int> authors, int pageSize, int currentPage)
+        public Task<PaginatedList<Book>> GetFilteredBooksWithDataAsync(
+            IEnumerable<int> categories,
+            IEnumerable<int> authors,
+            IEnumerable<int> publishers,
+            int pageSize, int currentPage)
         {
             IQueryable<Book> booksFromDb = _dbContext.Books
                 .AsNoTracking()
@@ -37,6 +41,9 @@ namespace BookMania.Infrastructure.Data
 
             if (categories.Any())
                 booksFromDb = booksFromDb.Where(b => b.BookCategories.Any(bc => categories.Contains(bc.CategoryId)));
+
+            if (publishers.Any())
+                booksFromDb = booksFromDb.Where(b => publishers.Contains(b.PublisherId));
 
             return PaginatedList<Book>.CreateAsync(booksFromDb, currentPage, pageSize, b => b.Title);
         }

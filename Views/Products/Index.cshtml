@@ -25,13 +25,20 @@
                     </label>
                     <div class="accordion__content">
                         <label class="filter-option">
-                            <input type="checkbox" checked disabled name="category" value="-1" />
+                            @if (Model.Categories.Any(c => c.IsSelected))
+                            {
+                                <input type="checkbox" name="category" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" checked disabled name="category" />
+                            }
                             <span>All</span>
                         </label>
                         @foreach (var category in Model.Categories)
                         {
                             <label class="filter-option">
-                                <input type="checkbox" name="category" value="@category.Id" />
+                                <input checked="@category.IsSelected" type="checkbox" name="category" value="@category.Id" />
                                 <span>@category.Name</span>
                             </label>
                         }
@@ -45,13 +52,20 @@
                     </label>
                     <div class="accordion__content">
                         <label class="filter-option">
-                            <input type="checkbox" checked disabled name="author" value="-1" />
+                            @if (Model.Authors.Any(a => a.IsSelected))
+                            {
+                                <input type="checkbox" name="author" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" checked disabled name="author" />
+                            }
                             <span>All</span>
                         </label>
                         @foreach (var author in Model.Authors)
                         {
                             <label class="filter-option">
-                                <input type="checkbox" name="author" value="@author.Id" />
+                                <input checked="@author.IsSelected" type="checkbox" name="author" value="@author.Id" />
                                 <span>@author.Name</span>
                             </label>
                         }
@@ -60,29 +74,31 @@
                 <div class="accordion">
                     <input id="panel-3" class="accordion__check" type="checkbox" hidden />
                     <label for="panel-3" class="accordion__trigger">
-                        <span class="accordion__title">Authors</span>
+                        <span class="accordion__title">Publishers</span>
                         <i class="fas fa-chevron-down icon"></i>
                     </label>
                     <div class="accordion__content">
                         <label class="filter-option">
-                            <input type="checkbox" checked name="categories" value="0" />
+                            @if (Model.Publishers.Any(p => p.IsSelected))
+                            {
+                                <input type="checkbox" name="publisher" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" checked disabled name="publisher" />
+                            }
                             <span>All</span>
                         </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="fantasy" value="1" />
-                            <span>Fantasy</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="horror" value="2" />
-                            <span>Horror</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="categories" />
-                            <span>Action and Adventure</span>
-                        </label>
+                        @foreach (var publisher in Model.Publishers)
+                        {
+                            <label class="filter-option">
+                                <input checked="@publisher.IsSelected" type="checkbox" name="publisher" value="@publisher.Id" />
+                                <span>@publisher.Name</span>
+                            </label>
+                        }
                     </div>
                 </div>
-                <input type="submit" name="filter" class="btn btn--flat" value="Apply Filter" />
+                <input type="submit" class="btn btn--flat" value="Apply Filter" />
             </form>
             <section class="right-panel">
                 <div class="product-list__main">
@@ -122,30 +138,30 @@
 
 
                     @*<div class="product">
-                        <div class="product__img">
-                            <img src="http://books.google.com/books/content?id=o2BVDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings" title="4/5">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
+                            <div class="product__img">
+                                <img src="http://books.google.com/books/content?id=o2BVDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" alt="Alternate Text" />
                             </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
+                            <div class="product__icons">
+                                <div class="product__ratings" title="4/5">
+                                    <div class="star star-1"></div>
+                                    <div class="star star-2"></div>
+                                    <div class="star star-3"></div>
+                                    <div class="star star-4"></div>
+                                    <div class="star star-5"></div>
+                                </div>
+                                <div class="product__favorite">
+                                    <img class="" src="~/images/heart-regular.svg" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>*@
+                            <div class="product__info">
+                                <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
+                                <h5 class="product__author">Philip K. Dick</h5>
+                            </div>
+                            <div class="product__pricing">
+                                <span class="product__price">$12.60</span>
+                                <button class="btn btn--secondary">Select</button>
+                            </div>
+                        </div>*@
                 </div>
                 <footer class="product-list__footer">
                     <a class="btn btn--secondary" href="#">Prev</a>
@@ -160,7 +176,7 @@
 @section Scripts {
     <script>
         // if top checkbox is checked, uncheck all its siblings
-        
+
 
         /**
          * Handles the change event for the "All' checkbox.
@@ -184,13 +200,20 @@
          */
         function siblingCheckboxEventHandler(ev) {
             const { target } = ev;
-            const allCheckbox = target
-                .closest(".accordion__content")
+            const parentContainer = target.closest(".accordion__content");
+            const topCheckbox = parentContainer
                 .querySelector('.filter-option:first-of-type > input[type="checkbox"]');
+            const siblings = parentContainer
+                .querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
+
+            if (!Array.from(siblings).some(el => el.checked)) {
+                topCheckbox.checked = true;
+                topCheckbox.disabled = true;
+            }
 
             if (target.checked) {
-                allCheckbox.checked = false;
-                allCheckbox.disabled = false;
+                topCheckbox.checked = false;
+                topCheckbox.disabled = false;
             }
         }
 

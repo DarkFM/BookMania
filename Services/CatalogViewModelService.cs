@@ -32,14 +32,16 @@ namespace BookMania.Services
             _logger = logger;
         }
 
-        public async Task<CatalogViewModel> GetFilteredCatalogItemsAsync(int userId, IEnumerable<int> categories, IEnumerable<int> authors, int pageSize = 0, int pageIndex = 1)
+        public async Task<CatalogViewModel> GetFilteredCatalogItemsAsync(int userId, FilterResponseViewModel responseFilters, int pageSize = 0, int pageIndex = 1)
         {
             _logger.LogInformation("GetFilteredCatalogItemsAsync called.");
 
             if (pageSize < 1) pageSize = 30;
 
-            //var paginatedBooks = await _bookRepository.GetAllBooksWithDataAsync(pageSize, pageIndex);
-            var paginatedBooks = await _bookRepository.GetFilteredBooksWithDataAsync(categories, authors, pageSize, pageIndex);
+            var (categories, authors, publishers) = responseFilters;
+
+            var paginatedBooks = await _bookRepository.GetFilteredBooksWithDataAsync(
+                categories, authors, publishers, pageSize, pageIndex);
             var allPublishers = await GetAllPublishers();
             var allCategories = await GetAllCategories();
             var allAuthors = await GetAllAuthors();
@@ -60,17 +62,20 @@ namespace BookMania.Services
                 Authors = allAuthors.Select(a => new AuthorViewModel()
                 {
                     Id = a.Id,
-                    Name = a.Name
+                    Name = a.Name,
+                    IsSelected = authors.Any(selectedId => selectedId == a.Id)
                 }),
                 Categories = allCategories.Select(c => new CategoryViewModel()
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
+                    IsSelected = categories.Any(selectedId => selectedId == c.Id)
                 }),
                 Publishers = allPublishers.Select(p => new PublisherViewModel()
                 {
                     Id = p.Id,
-                    Name = p.Name
+                    Name = p.Name,
+                    IsSelected = publishers.Any(selectedId => selectedId == p.Id)
                 }),
                 MinYear = await _bookRepository.GetMinPublishedYear(),
                 MaxYear = await _bookRepository.GetMaxPublishedYear(),
