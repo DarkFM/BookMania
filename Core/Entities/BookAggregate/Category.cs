@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BookMania.Core.Entities.BookAggregate
 {
-    public class Category // ValueObject
+    public class Category : BaseEntity
     {
         private Category()
         {
@@ -16,7 +16,6 @@ namespace BookMania.Core.Entities.BookAggregate
             Name = name;
         }
 
-        public int Id { get; private set; }
         public string Name { get; set; }
         public ICollection<BookCategory> BookCategories { get; set; }
     }

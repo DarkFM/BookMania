@@ -35,9 +35,9 @@ namespace BookMania.Core.Entities.OrderAggregate
         public DateTimeOffset OrderDate { get; private set; } = DateTimeOffset.Now;
         public Address ShipToAddress { get; private set; }
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
-        
+
         // Not mapped
-        public decimal TotalPrice => OrderItems.Aggregate(0m, (sum, item) => (item.Price * item.Quantity) + sum);
+        public decimal TotalPrice => OrderItems.Sum(item => item.Price * item.Quantity);
 
         public void AddOrderItem(Book book, int quantity, decimal price)
         {

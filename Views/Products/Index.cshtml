@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CatalogViewModel
+
+@{
     ViewData["Title"] = "Products";
 }
 
@@ -8,7 +10,9 @@
     </header>
     <div class="product-list">
         <header class="paging">
-            <span class="paging__count">2480 Items Found</span>
+            @*<span class="paging__count">2480 Items Found</span>
+                <span class="paging__sort">Sort <i class="fas fa-chevron-down"></i></span>*@
+            <span class="paging__count">@Model.TotalItemsFound</span>
             <span class="paging__sort">Sort <i class="fas fa-chevron-down"></i></span>
         </header>
         <div class="product-list__content">
@@ -21,46 +25,36 @@
                     </label>
                     <div class="accordion__content">
                         <label class="filter-option">
-                            <input type="checkbox" checked name="categories" value="0" />
+                            <input type="checkbox" checked disabled name="category" value="-1" />
                             <span>All</span>
                         </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="fantasy" value="1" />
-                            <span>Fantasy</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="horror" value="2" />
-                            <span>Horror</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="categories" />
-                            <span>Action and Adventure</span>
-                        </label>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <label class="filter-option">
+                                <input type="checkbox" name="category" value="@category.Id" />
+                                <span>@category.Name</span>
+                            </label>
+                        }
                     </div>
                 </div>
                 <div class="accordion">
                     <input id="panel-2" class="accordion__check" type="checkbox" hidden />
                     <label for="panel-2" class="accordion__trigger">
-                        <span class="accordion__title">Publication Year</span>
+                        <span class="accordion__title">Authors</span>
                         <i class="fas fa-chevron-down icon"></i>
                     </label>
                     <div class="accordion__content">
                         <label class="filter-option">
-                            <input type="checkbox" checked name="categories" value="0" />
+                            <input type="checkbox" checked disabled name="author" value="-1" />
                             <span>All</span>
                         </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="fantasy" value="1" />
-                            <span>Fantasy</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="horror" value="2" />
-                            <span>Horror</span>
-                        </label>
-                        <label class="filter-option">
-                            <input type="checkbox" name="categories" />
-                            <span>Action and Adventure</span>
-                        </label>
+                        @foreach (var author in Model.Authors)
+                        {
+                            <label class="filter-option">
+                                <input type="checkbox" name="author" value="@author.Id" />
+                                <span>@author.Name</span>
+                            </label>
+                        }
                     </div>
                 </div>
                 <div class="accordion">
@@ -92,9 +86,44 @@
             </form>
             <section class="right-panel">
                 <div class="product-list__main">
-                    <div class="product">
+                    @foreach (var book in Model.BookItems)
+                    {
+                        <div class="product">
+                            <div class="product__img">
+                                <img src="@book.Thumbnail" alt="Alternate Text" />
+                            </div>
+                            <div class="product__icons">
+                                <div class="product__ratings" title="@(book.AverageRating == null ? "Not Rated" : book.AverageRating.ToString()+"/5")">
+                                    <div class="star star-1"></div>
+                                    <div class="star star-2"></div>
+                                    <div class="star star-3"></div>
+                                    <div class="star star-4"></div>
+                                    <div class="star star-5"></div>
+                                </div>
+                                <div class="product__favorite">
+                                    <img class="@(book.IsFavorite ? "isFavorite": "")" src="~/images/heart-regular.svg" />
+                                </div>
+
+                            </div>
+
+                            <div class="product__info">
+                                <h3 class="product__title" title="@book.Title">@book.Title</h3>
+                                <h5 class="product__author" title="@string.Join(", ", book.Authors)">@string.Join(", ", book.Authors)</h5>
+                            </div>
+                            <div class="product__pricing">
+                                <span class="product__price">@book.Price.ToString("C")</span>
+                                <a asp-action="Item" asp-route-id="@book.BookId" class="btn btn--secondary">Select</a>
+                            </div>
+                        </div>
+                    }
+
+
+
+
+
+                    @*<div class="product">
                         <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
+                            <img src="http://books.google.com/books/content?id=o2BVDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" alt="Alternate Text" />
                         </div>
                         <div class="product__icons">
                             <div class="product__ratings" title="4/5">
@@ -116,182 +145,7 @@
                             <span class="product__price">$12.60</span>
                             <button class="btn btn--secondary">Select</button>
                         </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings" title="4/5">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep, and More Title by my Man</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="product__img">
-                            <img src="#" alt="Alternate Text" />
-                        </div>
-                        <div class="product__icons">
-                            <div class="product__ratings">
-                                <div class="star star-1"></div>
-                                <div class="star star-2"></div>
-                                <div class="star star-3"></div>
-                                <div class="star star-4"></div>
-                                <div class="star star-5"></div>
-                            </div>
-                            <div class="product__favorite">
-                                <img class="" src="~/images/heart-regular.svg" />
-                            </div>
-                        </div>
-                        <div class="product__info">
-                            <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                            <h5 class="product__author">Philip K. Dick</h5>
-                        </div>
-                        <div class="product__pricing">
-                            <span class="product__price">$12.60</span>
-                            <button class="btn btn--secondary">Select</button>
-                        </div>
-                    </div>
+                    </div>*@
                 </div>
                 <footer class="product-list__footer">
                     <a class="btn btn--secondary" href="#">Prev</a>
@@ -302,3 +156,48 @@
 
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        // if top checkbox is checked, uncheck all its siblings
+        
+
+        /**
+         * Handles the change event for the "All' checkbox.
+         * @@param {Event} ev The event object.
+         */
+        function topCheckboxEventHandler(ev) {
+            const { target } = ev;
+            const siblingCheckboxes = target
+                .closest(".accordion__content")
+                .querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
+
+            if (target.checked) {
+                target.disabled = true;
+                siblingCheckboxes.forEach(x => x.checked = false)
+            }
+        }
+
+        /**
+         * Handles the change event for all sibling checkboxes.
+         * @@param { Event } ev The event object.
+         */
+        function siblingCheckboxEventHandler(ev) {
+            const { target } = ev;
+            const allCheckbox = target
+                .closest(".accordion__content")
+                .querySelector('.filter-option:first-of-type > input[type="checkbox"]');
+
+            if (target.checked) {
+                allCheckbox.checked = false;
+                allCheckbox.disabled = false;
+            }
+        }
+
+        const topCheckBoxes = document.querySelectorAll('.filter-option:first-of-type > input[type="checkbox"]');
+        const siblingCheckboxes = document.querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
+
+        topCheckBoxes.forEach(x => x.addEventListener('change', topCheckboxEventHandler));
+        siblingCheckboxes.forEach(x => x.addEventListener('change', siblingCheckboxEventHandler))
+    </script>
+}

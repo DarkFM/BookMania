@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BookMania.Core.Entities.UserAggregate;
+using BookMania.Core.Interfaces;
 using BookMania.Extensions;
 using BookMania.Infrastructure.Data;
+using BookMania.Interfaces;
+using BookMania.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,7 +48,11 @@ namespace BookMania
                 .AddEntityFrameworkStores<CatalogContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddHttpClient<CatalogContextSeed>();
+            //services.AddHttpClient<CatalogContextSeed>();
+            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<ICatalogViewModelService, CatalogViewModelService>();
+
             services.AddGoogleBooks(Configuration);
         }
 

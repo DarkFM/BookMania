@@ -12,8 +12,8 @@ namespace BookMania.Core.Entities
 
         public Review(int bookId, int userId, int? rating = null, string review = default)
         {
-            if (rating > 5 || rating < 0)
-                throw new ArgumentOutOfRangeException("The rating must be in the range [0, 5]");
+            if (rating > 5 || rating < 1)
+                throw new ArgumentOutOfRangeException("The rating must be in the range [1, 5]");
 
             BookId = bookId;
             UserId = userId;
