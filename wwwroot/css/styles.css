@@ -42,23 +42,33 @@ body { font-size: 1.6rem; padding: 25px 35px; padding-top: 0; max-width: 144rem;
 
 .blockquote__cite { background: transparent url(../images/icons8-get-quote-80.png) no-repeat; background-size: contain; padding-left: 35px; font-size: 1.6rem; font-weight: 600; margin-top: 25px; }
 
-.accordion { position: relative; display: block; background-color: #e3eefc; border: none; border-radius: 10px; padding: 15px 13px; font-weight: 500; }
+.accordion { position: relative; display: block; background-color: #e3eefc; border: none; border-radius: 10px; padding: 20px 13px; font-weight: 500; }
 
 .accordion__trigger { display: flex; justify-content: space-between; cursor: pointer; }
 
 .accordion__trigger > .icon { transition: transform .5s ease; }
 
-.accordion__check:checked ~ .accordion__content { height: 150px; padding-top: 20px; }
+.accordion__check:checked ~ .accordion__content { height: 200px; padding-top: 20px; }
 
 .accordion__check:checked + .accordion__trigger > .icon { transform: rotateX(180deg) translateY(1px); perspective: 100px; }
 
-.accordion__content { height: 0; overflow: hidden; padding: 0; display: flex; flex-flow: column nowrap; transition: height .5s ease, padding-top .5s ease; }
+.accordion__check:checked ~ .accordion__content > .show-more { opacity: 1; height: 4.6rem; }
+
+.accordion__content { height: 0; overflow: hidden; padding: 0; display: flex; flex-flow: column nowrap; transition: height .5s ease, padding-top .5s ease; position: relative; z-index: 0; }
+
+.accordion__content .show-more { position: absolute; opacity: 0; font-size: 1.2rem; display: flex; align-items: flex-end; justify-content: center; z-index: 10; bottom: 0px; width: 100%; height: 4.6rem; height: 0; text-decoration: underline; color: mediumblue; cursor: pointer; background: linear-gradient(to bottom, rgba(231, 237, 251, 0.4), #e7edfb 80%); transition: opacity .5s ease .1s, height .2s ease .1s; }
+
+.accordion .show-more-list:checked ~ .accordion__content { height: 400px; overflow: scroll; }
+
+.accordion .show-more-list:checked ~ .accordion__content > .show-more { position: relative; }
 
 .accordion .filter-option { margin: 2px 0; display: flex; font-size: 1.4rem; }
 
 .accordion .filter-option input[type="checkbox"] { margin-right: 10px; }
 
 .product-list .paging { width: 100%; display: flex; justify-content: space-between; }
+
+.product-list .paging__pageIndex-input { width: 30px; text-align: center; }
 
 .product-list__content { display: flex; margin-top: 3rem; position: relative; }
 
@@ -136,15 +146,23 @@ body { font-size: 1.6rem; padding: 25px 35px; padding-top: 0; max-width: 144rem;
 
 .btn--primary { border-radius: 100px; padding: 12px 30px; box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.3); background-color: #FFF; color: #07080C; }
 
+.btn--disabled { padding: 7px 15px; background: url(../images/criss-cross.png) center/cover no-repeat; box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.3); /*pointer-events: none;*/ cursor: not-allowed; }
+
+.btn--disabled:hover { box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.3); }
+
+.btn--disabled:active { transform: none; box-shadow: 0 3px 15px -5px rgba(0, 0, 0, 0.3); }
+
 .btn--secondary, .btn--flat { background: linear-gradient(180deg, #1a7d89 0%, rgba(26, 125, 137, 0.961298) 100%); color: #f0f4fb; }
 
 .btn--secondary { border-radius: 5px; padding: 7px 15px; }
 
-.btn--flat { display: inline-block; width: 100%; height: 40px; line-height: 40px; padding: 0 14px; box-shadow: -2px 0px 5px 0px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); border-radius: 4px; transition: all .3s ease; }
+.btn--flat, .btn--flat-danger { display: inline-block; width: 100%; height: 40px; line-height: 40px; padding: 0 14px; box-shadow: -2px 0px 5px 0px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); border-radius: 4px; transition: all .3s ease; }
 
-.btn--flat:hover { transform: translateY(-1px); box-shadow: 0 7px 14px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }
+.btn--flat:hover, .btn--flat-danger:hover { transform: translateY(-1px); box-shadow: 0 7px 14px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }
 
-.btn--flat:active { transform: translateY(0.5px); }
+.btn--flat:active, .btn--flat-danger:active { transform: translateY(0.5px); }
+
+.btn--flat-danger { background-color: #F85949; color: #f0f4fb; }
 
 .page-container { display: flex; width: 80%; margin: 0 auto; height: 75vh; flex-direction: column; justify-content: center; }
 

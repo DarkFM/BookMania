@@ -15,5 +15,9 @@ namespace BookMania.ViewModels
         public int MaxYear { get; set; }
         public int MinYear { get; set; }
         public int TotalItemsFound { get; set; }
+        public bool HasPrevPage { get; set; }
+        public bool HasNextPage { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
     }
 }

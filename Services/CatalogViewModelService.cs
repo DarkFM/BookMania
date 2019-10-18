@@ -32,13 +32,13 @@ namespace BookMania.Services
             _logger = logger;
         }
 
-        public async Task<CatalogViewModel> GetFilteredCatalogItemsAsync(int userId, FilterResponseViewModel responseFilters, int pageSize = 0, int pageIndex = 1)
+        public async Task<CatalogViewModel> GetFilteredCatalogItemsAsync(int userId, FilterResponseViewModel responseFilters, int pageSize = 30)
         {
             _logger.LogInformation("GetFilteredCatalogItemsAsync called.");
 
             if (pageSize < 1) pageSize = 30;
 
-            var (categories, authors, publishers) = responseFilters;
+            var (categories, authors, publishers, pageIndex) = responseFilters;
 
             var paginatedBooks = await _bookRepository.GetFilteredBooksWithDataAsync(
                 categories, authors, publishers, pageSize, pageIndex);
@@ -79,7 +79,11 @@ namespace BookMania.Services
                 }),
                 MinYear = await _bookRepository.GetMinPublishedYear(),
                 MaxYear = await _bookRepository.GetMaxPublishedYear(),
-                TotalItemsFound = paginatedBooks.TotalItems
+                TotalItemsFound = paginatedBooks.TotalItems,
+                CurrentPage = paginatedBooks.CurrentPage,
+                TotalPages = paginatedBooks.TotalPages,
+                HasNextPage = paginatedBooks.HasNextPage,
+                HasPrevPage = paginatedBooks.HasPreviouspage,
             };
 
             return vm;

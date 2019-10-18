@@ -4,6 +4,11 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
+
+        &__pageIndex-input {
+            width: 30px;
+            text-align: center;
+        }
     }
 
 

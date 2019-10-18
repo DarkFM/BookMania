@@ -49,13 +49,17 @@ namespace BookMania.Core
         /// <returns></returns>
         public static async Task<PaginatedList<T>> CreateAsync<TSort>(IQueryable<T> source, int pageIndex, int pageSize, Expression<Func<T, TSort>> orderBy)
         {
-            var items = await source
+            var countTask = source.CountAsync();
+            var numberItemsToSkip = pageSize * (pageIndex - 1);
+
+            var itemsTask = source
                 .OrderBy(orderBy)
-                .Skip(pageSize * (pageIndex - 1))
+                .Skip(numberItemsToSkip)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var count = await source.CountAsync();
+            var count = await countTask;
+            var items = await itemsTask;
 
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }

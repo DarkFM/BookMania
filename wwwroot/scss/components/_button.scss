@@ -24,6 +24,23 @@
         color: #07080C;
     }
 
+    &--disabled {
+        padding: 7px 15px;
+        background: url(../images/criss-cross.png) center / cover no-repeat;
+        box-shadow: 0 3px 15px -5px rgba(0,0,0,.3);
+        /*pointer-events: none;*/
+        cursor: not-allowed;
+
+        &:hover {
+            box-shadow: 0 3px 15px -5px rgba(0,0,0,.3);
+        }
+
+        &:active {
+            transform: none;
+            box-shadow: 0 3px 15px -5px rgba(0,0,0,.3);
+        }
+    }
+
     &--secondary,
     &--flat {
         background: $green-primary;
@@ -35,7 +52,8 @@
         padding: 7px 15px;
     }
 
-    &--flat {
+    &--flat,
+    &--flat-danger {
         display: inline-block;
         width: 100%;
         height: 40px;
@@ -53,5 +71,10 @@
         &:active {
             transform: translateY(.5px);
         }
+    }
+
+    &--flat-danger {
+        background-color: #F85949;
+        color: $default_bg-color;
     }
 }

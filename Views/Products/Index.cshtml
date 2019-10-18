@@ -1,4 +1,6 @@
-﻿@model CatalogViewModel
+﻿@using System.Globalization;
+
+@model CatalogViewModel
 
 @{
     ViewData["Title"] = "Products";
@@ -8,15 +10,19 @@
     <header class="page-heading">
         all products
     </header>
-    <div class="product-list">
+    <form class="product-list">
         <header class="paging">
             @*<span class="paging__count">2480 Items Found</span>
                 <span class="paging__sort">Sort <i class="fas fa-chevron-down"></i></span>*@
-            <span class="paging__count">@Model.TotalItemsFound</span>
+            <span class="paging__count">@Model.TotalItemsFound Book(s) Found</span>
+            <span class="paging__pageIndex">
+                <input class="paging__pageIndex-input" type="text" name="page" value="@Model.CurrentPage" />
+                of @Model.TotalPages
+            </span>
             <span class="paging__sort">Sort <i class="fas fa-chevron-down"></i></span>
         </header>
         <div class="product-list__content">
-            <form class="left-panel">
+            <section class="left-panel">
                 <div class="accordion">
                     <input id="panel-1" class="accordion__check" type="checkbox" hidden />
                     <label for="panel-1" class="accordion__trigger">
@@ -27,21 +33,22 @@
                         <label class="filter-option">
                             @if (Model.Categories.Any(c => c.IsSelected))
                             {
-                                <input type="checkbox" name="category" />
+                                <input type="checkbox" name="c" />
                             }
                             else
                             {
-                                <input type="checkbox" checked disabled name="category" />
+                                <input type="checkbox" checked disabled name="c" />
                             }
                             <span>All</span>
                         </label>
                         @foreach (var category in Model.Categories)
                         {
                             <label class="filter-option">
-                                <input checked="@category.IsSelected" type="checkbox" name="category" value="@category.Id" />
+                                <input checked="@category.IsSelected" type="checkbox" name="c" value="@category.Id" />
                                 <span>@category.Name</span>
                             </label>
                         }
+                        <div class="show-more" data-hidden-display="Show Less" data-full-height="0">Show More</div>
                     </div>
                 </div>
                 <div class="accordion">
@@ -54,21 +61,22 @@
                         <label class="filter-option">
                             @if (Model.Authors.Any(a => a.IsSelected))
                             {
-                                <input type="checkbox" name="author" />
+                                <input type="checkbox" name="a" />
                             }
                             else
                             {
-                                <input type="checkbox" checked disabled name="author" />
+                                <input type="checkbox" checked disabled name="a" />
                             }
                             <span>All</span>
                         </label>
                         @foreach (var author in Model.Authors)
                         {
                             <label class="filter-option">
-                                <input checked="@author.IsSelected" type="checkbox" name="author" value="@author.Id" />
+                                <input checked="@author.IsSelected" type="checkbox" name="a" value="@author.Id" />
                                 <span>@author.Name</span>
                             </label>
                         }
+                        <div class="show-more" data-hidden-display="Show Less" data-full-height="0">Show More</div>
                     </div>
                 </div>
                 <div class="accordion">
@@ -81,25 +89,27 @@
                         <label class="filter-option">
                             @if (Model.Publishers.Any(p => p.IsSelected))
                             {
-                                <input type="checkbox" name="publisher" />
+                                <input type="checkbox" name="p" />
                             }
                             else
                             {
-                                <input type="checkbox" checked disabled name="publisher" />
+                                <input type="checkbox" checked disabled name="p" />
                             }
                             <span>All</span>
                         </label>
                         @foreach (var publisher in Model.Publishers)
                         {
                             <label class="filter-option">
-                                <input checked="@publisher.IsSelected" type="checkbox" name="publisher" value="@publisher.Id" />
+                                <input checked="@publisher.IsSelected" type="checkbox" name="p" value="@publisher.Id" />
                                 <span>@publisher.Name</span>
                             </label>
                         }
+                        <div class="show-more" data-hidden-display="Show Less" data-full-height="0">Show More</div>
                     </div>
                 </div>
-                <input type="submit" class="btn btn--flat" value="Apply Filter" />
-            </form>
+                <input type="submit" class="btn btn--flat apply-filters" value="Apply Filters" />
+                <input type="button" class="btn btn--flat-danger reset-filters" value="Reset Filters" />
+            </section>
             <section class="right-panel">
                 <div class="product-list__main">
                     @foreach (var book in Model.BookItems)
@@ -123,8 +133,12 @@
                             </div>
 
                             <div class="product__info">
+                                @{
+                                    string bookAuthors = string.Join(", ", book.Authors);
+                                    bookAuthors = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(bookAuthors);
+                                }
                                 <h3 class="product__title" title="@book.Title">@book.Title</h3>
-                                <h5 class="product__author" title="@string.Join(", ", book.Authors)">@string.Join(", ", book.Authors)</h5>
+                                <h5 class="product__author" title="@bookAuthors">@bookAuthors</h5>
                             </div>
                             <div class="product__pricing">
                                 <span class="product__price">@book.Price.ToString("C")</span>
@@ -132,45 +146,30 @@
                             </div>
                         </div>
                     }
-
-
-
-
-
-                    @*<div class="product">
-                            <div class="product__img">
-                                <img src="http://books.google.com/books/content?id=o2BVDwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api" alt="Alternate Text" />
-                            </div>
-                            <div class="product__icons">
-                                <div class="product__ratings" title="4/5">
-                                    <div class="star star-1"></div>
-                                    <div class="star star-2"></div>
-                                    <div class="star star-3"></div>
-                                    <div class="star star-4"></div>
-                                    <div class="star star-5"></div>
-                                </div>
-                                <div class="product__favorite">
-                                    <img class="" src="~/images/heart-regular.svg" />
-                                </div>
-                            </div>
-                            <div class="product__info">
-                                <h3 class="product__title">Do Androids Dream Of Electric Sheep</h3>
-                                <h5 class="product__author">Philip K. Dick</h5>
-                            </div>
-                            <div class="product__pricing">
-                                <span class="product__price">$12.60</span>
-                                <button class="btn btn--secondary">Select</button>
-                            </div>
-                        </div>*@
                 </div>
                 <footer class="product-list__footer">
-                    <a class="btn btn--secondary" href="#">Prev</a>
-                    <a class="btn btn--secondary" href="#">Next</a>
+                    @if (Model.HasPrevPage)
+                    {
+                        <a class="btn btn--secondary" href="@(ViewData["QueryParams"] + "&Page=" + (Model.CurrentPage - 1).ToString())">Prev</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn--disabled">Prev</a>
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="btn btn--secondary" href="@(ViewData["QueryParams"] + "&Page=" + (Model.CurrentPage + 1).ToString())">Next</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn--disabled">Next</a>
+                    }
                 </footer>
             </section>
         </div>
 
-    </div>
+    </form>
 </section>
 
 @section Scripts {
@@ -217,10 +216,59 @@
             }
         }
 
+        /**
+         * Handles click events on the show more button on an accordion
+         * @@param { Event } ev The raised event
+         */
+        function expandAccordion(ev) {
+            const { target } = ev;
+            const parent = target.parentNode;
+
+            if (!target.classList.contains('show-more'))
+                return;
+            // swap the display texts
+            const currentDisplayText = target.innerText;
+            const textToDisplay = target.dataset.hiddenDisplay;
+            target.innerText = textToDisplay;
+            target.dataset.hiddenDisplay = currentDisplayText;
+
+            const isParentExpanded = Boolean(+target.dataset.fullHeight);
+            if (isParentExpanded == false) {
+                target.setAttribute('style', 'position: relative');
+                parent.setAttribute('style', "height: 400px; overflow: scroll;")
+                target.dataset.fullHeight = 1;
+            } else {
+                parent.scrollTop = 0;
+                target.setAttribute('style', '');
+                parent.setAttribute('style', '')
+                target.dataset.fullHeight = 0;
+            }
+        }
+
+        /**
+         * This funciton resets all filters applied to the page
+         * @@param { Event } ev The event object
+         */
+        function resetAllFilters(ev) {
+            topCheckBoxes.forEach(x => (x.checked = true, x.disabled = true));
+            siblingCheckboxes.forEach(x => x.checked = false);
+        }
+
+        /**
+         * Resets the current page to 1
+         * @@param { Event } ev The raised event
+         */
+        function resetPageIndex(ev) {
+            document.querySelector('.paging__pageIndex-input').value = 1;
+        }
+
         const topCheckBoxes = document.querySelectorAll('.filter-option:first-of-type > input[type="checkbox"]');
         const siblingCheckboxes = document.querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
 
+        document.querySelector('.left-panel').addEventListener('click', expandAccordion);
         topCheckBoxes.forEach(x => x.addEventListener('change', topCheckboxEventHandler));
-        siblingCheckboxes.forEach(x => x.addEventListener('change', siblingCheckboxEventHandler))
+        siblingCheckboxes.forEach(x => x.addEventListener('change', siblingCheckboxEventHandler));
+        document.querySelector('.reset-filters').addEventListener('click', resetAllFilters);
+        document.querySelector('.apply-filters').addEventListener('click', resetPageIndex)
     </script>
 }
