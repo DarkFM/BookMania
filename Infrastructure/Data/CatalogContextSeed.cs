@@ -24,9 +24,9 @@ namespace BookMania.Infrastructure.Data
         private readonly CatalogContext ctx;
         private readonly GoogleApiOptions apiOptions;
         private readonly ICollection<string> _catageories = new List<string> {
-            "History", "Business & Economics", "Biography & Autobiography", "Philosophy", "Political Science",
-            "Action and adventure", "Romance", "Medical", "Computers", "Cooking", "Art", "Folklore",
-            "Education", "Horror", "Graphic novel", "Mystery", "Romance", "Thriller", "Biography"
+            "drama", "Philosophy", "Fantasy", "Satire", "Suspense", "Young adult","Action and adventure",
+            "Romance", "Art", "Folklore","Horror", "Graphic novel", "Mystery", "Romance", "Thriller",
+            "Biography"
         };
 
         public CatalogContextSeed(HttpClient httpClient, IOptionsMonitor<GoogleApiOptions> options, CatalogContext ctx)
@@ -52,7 +52,7 @@ namespace BookMania.Infrastructure.Data
         {
             var rand = new Random();
             // [a, m], [a, t]
-            var (int1, int2) = (rand.Next(13) + 97, rand.Next(20) + 97);
+            var (int1, int2) = (rand.Next(20) + 97, rand.Next(20) + 97);
             string randTwoLetter = char.ConvertFromUtf32(int1) + char.ConvertFromUtf32(int2);
 
             // using partial response
@@ -64,8 +64,8 @@ namespace BookMania.Infrastructure.Data
                 .AddQuery("filter", "paid-ebooks")
                 .AddQuery("printType", "books")
                 .AddQuery("langRestrict", "en")
-                .AddQuery("maxResults", "20")
-                .AddQuery("startIndex", rand.Next(10).ToString());
+                .AddQuery("maxResults", "40")
+                .AddQuery("startIndex", rand.Next(21).ToString());
 
 
             var httpResponse = await client.GetAsync(queryString);
@@ -81,6 +81,7 @@ namespace BookMania.Infrastructure.Data
             // loop through catagories and get books for each
             foreach (var category in _catageories)
             {
+
                 var response = await GetRandomBooksAsync(category);
 
                 foreach (var productInfo in response.Items)
@@ -89,19 +90,20 @@ namespace BookMania.Infrastructure.Data
 
                     // VolumeInfo Details
                     var (bookTitle, bookPublisher, bookDescription, publishedDate) = volumeInfo;
-                    var (authors, categories, (_, largeImage)) = volumeInfo;
+                    var (authors, categories, (_, thumbnail)) = volumeInfo;
+                    var largeImage = thumbnail.AddQuery("zoom", "3"); // enables medium image size
 
                     // SalesInfo Details
                     var (price, currency) = salesInfo.RetailPrice;
 
-                    
+
                     // *********** Saving data to database ****************
 
                     var publisher = new Publisher(bookPublisher.ToLowerInvariant());
                     AddToDb(publisher, p => p.Name == publisher.Name);
                     publisher = GetFromDb<Publisher>(p => p.Name == publisher.Name);
 
-                    var book = new Book(bookTitle, price, publishedDate, publisher, bookDescription, largeImage);
+                    var book = new Book(bookTitle, price, publishedDate, publisher, bookDescription, thumbnail, largeImage);
                     AddToDb(book, b => b.Title == book.Title && b.PublishedDate == publishedDate);
                     book = GetFromDb<Book>(b => b.Title == book.Title && b.PublishedDate == publishedDate);
 
@@ -175,8 +177,8 @@ namespace BookMania.Infrastructure.Data
     public class ProductInfo
     {
         public string Id { get; set; }
-        public Volumeinfo VolumeInfo { get; set; }
-        public Saleinfo SaleInfo { get; set; }
+        public Volumeinfo VolumeInfo { get; set; } = new Volumeinfo();
+        public Saleinfo SaleInfo { get; set; } = new Saleinfo();
 
         public void Deconstruct(out string id, out Volumeinfo volumeinfo, out Saleinfo saleinfo)
         {
@@ -199,7 +201,7 @@ namespace BookMania.Infrastructure.Data
 
         // Allows Json.Net to populate this as it will create a new object, rather than reusing the existing one
         public IEnumerable<string> Categories { get; set; } = new List<string>() { "Unknown" }.AsReadOnly();
-        public Imagelinks ImageLinks { get; set; }
+        public Imagelinks ImageLinks { get; set; } = new Imagelinks();
 
         public void Deconstruct(out string title, out string publisher, out string description, out DateTime publishedDate)
         {
@@ -231,7 +233,7 @@ namespace BookMania.Infrastructure.Data
 
     public class Saleinfo
     {
-        public Retailprice RetailPrice { get; set; }
+        public Retailprice RetailPrice { get; set; } = new Retailprice();
     }
 
     public class Retailprice

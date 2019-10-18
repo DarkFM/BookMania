@@ -13,7 +13,7 @@ namespace BookMania.Core.Entities.BookAggregate
         {
         }
 
-        public Book(string title, decimal price, DateTime publishedDate, Publisher publisher, string description = null, string imageUrl = null)
+        public Book(string title, decimal price, DateTime publishedDate, Publisher publisher, string description = null, string imageUrl = null, string imageUrlLarge = null)
         {
             title.ThrowIfNullOrWhiteSpace($"{nameof(title)} cannot be null/white-space");
             publisher.ThrowIfNull($"A {nameof(Book)} must have a {nameof(publisher)}");
@@ -24,6 +24,7 @@ namespace BookMania.Core.Entities.BookAggregate
             Publisher = publisher;
             Description = description;
             ImageUrl = imageUrl;
+            ImageUrlLarge = imageUrlLarge;
         }
 
         public string Title { get; set; }
@@ -33,6 +34,7 @@ namespace BookMania.Core.Entities.BookAggregate
         public Publisher Publisher { get; set; }
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public string ImageUrlLarge { get; set; }
 
         public ICollection<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
         public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
