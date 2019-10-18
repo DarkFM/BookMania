@@ -22,10 +22,10 @@ namespace BookMania
             var host = CreateWebHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<CatalogContext>())
             {
                 var services = scope.ServiceProvider;
                 var googleOptions = services.GetRequiredService<IOptionsMonitor<GoogleApiOptions>>();
-                var dbContext = services.GetRequiredService<CatalogContext>();
 
                 dbContext.Database.Migrate();
 

@@ -1,4 +1,5 @@
-﻿using BookMania.Interfaces;
+﻿using BookMania.Filters;
+using BookMania.Interfaces;
 using BookMania.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -20,18 +21,17 @@ namespace BookMania.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        [SeperatedQueryString]
         public async Task<IActionResult> Index([FromQuery]FilterResponseViewModel viewModel)
         {
             viewModel.CurrentPage = viewModel.CurrentPage < 1 ? 1 : viewModel.CurrentPage;
             var catalogViewModel = await _catalogViewModelService.GetFilteredCatalogItemsAsync(0, viewModel);
-            var query = Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
-            query.Remove("page");
 
-            ViewData["QueryParams"] = query;
-            foreach (var kvp in query)
-            {
-                _logger.LogDebug($"Key: {kvp.Key}, Value: {kvp.Value}");
-            }
+            ViewData["Categories"] = string.Join(",", viewModel.Categories);
+            ViewData["Authors"] = string.Join(",", viewModel.Authors);
+            ViewData["Publishers"] = string.Join(",", viewModel.Publishers);
+
             return View(catalogViewModel);
         }
     }

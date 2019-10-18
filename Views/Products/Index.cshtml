@@ -39,11 +39,10 @@
                             }
                             <span>All</span>
                         </label>
-                        @for(int i = 0; i < Model.Categories.Count(); i++)
+                        @foreach (var category in Model.Categories)
                         {
-                            var category = Model.Categories.ElementAt(i);
                             <label class="filter-option">
-                                <input checked="@category.IsSelected" type="checkbox" name="c[@i]" value="@category.Id" />
+                                <input checked="@category.IsSelected" type="checkbox" name="c" value="@category.Id" />
                                 <span>@category.Name</span>
                             </label>
                         }
@@ -68,14 +67,13 @@
                             }
                             <span>All</span>
                         </label>
-                        @for (int i = 0; i < Model.Authors.Count(); i++)
-                        {
-                            var author = Model.Authors.ElementAt(i);
-                            <label class="filter-option">
-                                <input checked="@author.IsSelected" type="checkbox" name="a[@i]" value="@author.Id" />
-                                <span>@author.Name</span>
-                            </label>
-                        }
+                            @foreach (var author in Model.Authors)
+                            {
+                                <label class="filter-option">
+                                    <input checked="@author.IsSelected" type="checkbox" name="a" value="@author.Id" />
+                                    <span>@author.Name</span>
+                                </label>
+                            }
                         <div class="show-more" data-hidden-display="Show Less" data-full-height="0">Show More</div>
                     </div>
                 </div>
@@ -97,11 +95,10 @@
                             }
                             <span>All</span>
                         </label>
-                        @for (int i = 0; i < Model.Publishers.Count(); i++)
+                        @foreach (var publisher in Model.Publishers)
                         {
-                            var publisher = Model.Publishers.ElementAt(i);
                             <label class="filter-option">
-                                <input checked="@publisher.IsSelected" type="checkbox" name="p[@i]" value="@publisher.Id" />
+                                <input checked="@publisher.IsSelected" type="checkbox" name="p" value="@publisher.Id" />
                                 <span>@publisher.Name</span>
                             </label>
                         }
@@ -158,7 +155,11 @@
                     }
                     @if (Model.HasPrevPage)
                     {
-                        <a class="btn btn--secondary" asp-all-route-data="ViewBag.QueryParams" asp-route-page="@prevPageNumber">Prev</a>
+                        <a class="btn btn--secondary" 
+                           asp-route-page="@prevPageNumber" 
+                           asp-route-c="@ViewBag.Categories"
+                           asp-route-a="@ViewBag.Authors"
+                           asp-route-p="@ViewBag.Publisher">Prev</a>
                     }
                     else
                     {
@@ -167,7 +168,11 @@
 
                     @if (Model.HasNextPage)
                     {
-                        <a class="btn btn--secondary" asp-all-route-data='ViewBag.QueryParams' asp-route-page="@nextPageNumber">Next</a>
+                        <a class="btn btn--secondary"
+                           asp-route-page="@nextPageNumber" 
+                           asp-route-c="@ViewBag.Categories"
+                           asp-route-a="@ViewBag.Authors"
+                           asp-route-p="@ViewBag.Publisher">Next</a>
                     }
                     else
                     {

@@ -41,8 +41,12 @@ namespace BookMania
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContext<CatalogContext>(builder =>
-                builder.UseSqlServer(Configuration.GetConnectionString("CatalogContext")));
+            services.AddDbContext<CatalogContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("CatalogContext"));
+                options.EnableSensitiveDataLogging();
+                options.EnableDetailedErrors();
+            });
 
             services.AddIdentityCore<ApplicationUser>(opts => opts.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<CatalogContext>()
