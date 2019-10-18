@@ -107,8 +107,9 @@
                         <div class="show-more" data-hidden-display="Show Less" data-full-height="0">Show More</div>
                     </div>
                 </div>
-                <input type="submit" class="btn btn--flat apply-filters" value="Apply Filters" />
-                <input type="button" class="btn btn--flat-danger reset-filters" value="Reset Filters" />
+                <input type="submit" hidden />
+                <button type="button" class="btn btn--flat apply-filters">Apply Filters</button>
+                <button type="button" class="btn btn--flat-danger reset-filters">Reset Filters</button>
             </section>
             <section class="right-panel">
                 <div class="product-list__main">
@@ -260,6 +261,7 @@
          */
         function resetPageIndex(ev) {
             document.querySelector('.paging__pageIndex-input').value = 1;
+            document.querySelector('form.product-list').submit();
         }
 
         const topCheckBoxes = document.querySelectorAll('.filter-option:first-of-type > input[type="checkbox"]');
@@ -269,6 +271,6 @@
         topCheckBoxes.forEach(x => x.addEventListener('change', topCheckboxEventHandler));
         siblingCheckboxes.forEach(x => x.addEventListener('change', siblingCheckboxEventHandler));
         document.querySelector('.reset-filters').addEventListener('click', resetAllFilters);
-        document.querySelector('.apply-filters').addEventListener('click', resetPageIndex)
+        document.querySelector('.apply-filters').onclick = resetPageIndex;//addEventListener('click', resetPageIndex)
     </script>
 }
