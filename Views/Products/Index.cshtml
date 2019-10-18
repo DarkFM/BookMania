@@ -12,8 +12,6 @@
     </header>
     <form class="product-list">
         <header class="paging">
-            @*<span class="paging__count">2480 Items Found</span>
-                <span class="paging__sort">Sort <i class="fas fa-chevron-down"></i></span>*@
             <span class="paging__count">@Model.TotalItemsFound Book(s) Found</span>
             <span class="paging__pageIndex">
                 <input class="paging__pageIndex-input" type="text" name="page" value="@Model.CurrentPage" />
@@ -41,10 +39,11 @@
                             }
                             <span>All</span>
                         </label>
-                        @foreach (var category in Model.Categories)
+                        @for(int i = 0; i < Model.Categories.Count(); i++)
                         {
+                            var category = Model.Categories.ElementAt(i);
                             <label class="filter-option">
-                                <input checked="@category.IsSelected" type="checkbox" name="c" value="@category.Id" />
+                                <input checked="@category.IsSelected" type="checkbox" name="c[@i]" value="@category.Id" />
                                 <span>@category.Name</span>
                             </label>
                         }
@@ -69,10 +68,11 @@
                             }
                             <span>All</span>
                         </label>
-                        @foreach (var author in Model.Authors)
+                        @for (int i = 0; i < Model.Authors.Count(); i++)
                         {
+                            var author = Model.Authors.ElementAt(i);
                             <label class="filter-option">
-                                <input checked="@author.IsSelected" type="checkbox" name="a" value="@author.Id" />
+                                <input checked="@author.IsSelected" type="checkbox" name="a[@i]" value="@author.Id" />
                                 <span>@author.Name</span>
                             </label>
                         }
@@ -97,10 +97,11 @@
                             }
                             <span>All</span>
                         </label>
-                        @foreach (var publisher in Model.Publishers)
+                        @for (int i = 0; i < Model.Publishers.Count(); i++)
                         {
+                            var publisher = Model.Publishers.ElementAt(i);
                             <label class="filter-option">
-                                <input checked="@publisher.IsSelected" type="checkbox" name="p" value="@publisher.Id" />
+                                <input checked="@publisher.IsSelected" type="checkbox" name="p[@i]" value="@publisher.Id" />
                                 <span>@publisher.Name</span>
                             </label>
                         }
@@ -149,9 +150,15 @@
                     }
                 </div>
                 <footer class="product-list__footer">
+                    @{ 
+                        int prevPage = (Model.CurrentPage - 1);
+
+                        int prevPageNumber = prevPage > Model.TotalPages ? Model.TotalPages : prevPage;
+                        int nextPageNumber = Model.CurrentPage + 1;
+                    }
                     @if (Model.HasPrevPage)
                     {
-                        <a class="btn btn--secondary" href="@(ViewData["QueryParams"] + "&Page=" + (Model.CurrentPage - 1).ToString())">Prev</a>
+                        <a class="btn btn--secondary" asp-all-route-data="ViewBag.QueryParams" asp-route-page="@prevPageNumber">Prev</a>
                     }
                     else
                     {
@@ -160,7 +167,7 @@
 
                     @if (Model.HasNextPage)
                     {
-                        <a class="btn btn--secondary" href="@(ViewData["QueryParams"] + "&Page=" + (Model.CurrentPage + 1).ToString())">Next</a>
+                        <a class="btn btn--secondary" asp-all-route-data='ViewBag.QueryParams' asp-route-page="@nextPageNumber">Next</a>
                     }
                     else
                     {

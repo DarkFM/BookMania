@@ -24,14 +24,14 @@ namespace BookMania.Controllers
         {
             viewModel.CurrentPage = viewModel.CurrentPage < 1 ? 1 : viewModel.CurrentPage;
             var catalogViewModel = await _catalogViewModelService.GetFilteredCatalogItemsAsync(0, viewModel);
+            var query = Request.Query.ToDictionary(k => k.Key, v => v.Value.ToString());
+            query.Remove("page");
 
-            var queryString = Request.QueryString.Value;
-            var filteredQueryStrings = queryString.Split('&').Where(x => !x.Contains("page", StringComparison.OrdinalIgnoreCase));
-            var finalQueryString = string.Join('&', filteredQueryStrings).TrimStart('?').Insert(0, "?");
-
-            ViewData["QueryParams"] = finalQueryString;
-            _logger.LogDebug(queryString);
-            _logger.LogDebug(finalQueryString);
+            ViewData["QueryParams"] = query;
+            foreach (var kvp in query)
+            {
+                _logger.LogDebug($"Key: {kvp.Key}, Value: {kvp.Value}");
+            }
             return View(catalogViewModel);
         }
     }
