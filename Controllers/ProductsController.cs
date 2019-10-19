@@ -13,12 +13,14 @@ namespace BookMania.Controllers
     public class ProductsController : Controller
     {
         private readonly ICatalogViewModelService _catalogViewModelService;
+        private readonly IBookDetailsService _bookDetailsService;
         private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(ICatalogViewModelService catalogViewModelService, ILogger<ProductsController> logger)
+        public ProductsController(ICatalogViewModelService catalogViewModelService, ILogger<ProductsController> logger, IBookDetailsService bookDetailsService)
         {
             _catalogViewModelService = catalogViewModelService;
             _logger = logger;
+            _bookDetailsService = bookDetailsService;
         }
 
         [HttpGet]
@@ -33,6 +35,14 @@ namespace BookMania.Controllers
             ViewData["Publishers"] = string.Join(",", viewModel.Publishers);
 
             return View(catalogViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Product([FromRoute]int id)
+        {
+            var vm = await _bookDetailsService.GetBookDetailsAsync(id, 0/*HttpContext.User.Identity.*/);
+            return View(vm);
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BookMania.Binders
     // https://www.strathweb.com/2017/07/customizing-query-string-parameter-binding-in-asp-net-core-mvc/
     /// <summary>
     /// Factory responsible for providing instances of value providers
-    /// Used by registering a value provider with MVC
+    /// Used to register a value provider with MVC
     /// </summary>
     public class SeperatedQueryStringProviderFactory : IValueProviderFactory
     {

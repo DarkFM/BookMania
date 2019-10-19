@@ -24,9 +24,9 @@ namespace BookMania.Infrastructure.Data
         private readonly CatalogContext ctx;
         private readonly GoogleApiOptions apiOptions;
         private readonly ICollection<string> _catageories = new List<string> {
-            "drama", "Philosophy", "Fantasy", "Satire", "Suspense", "Young adult","Action and adventure",
-            "Romance", "Art", "Folklore","Horror", "Graphic novel", "Mystery", "Romance", "Thriller",
-            "Biography"
+            "Drama", "Philosophy", "Fantasy", "Satire", "Suspense", "Young Adult Fiction", "Action And Adventure",
+            "Romance", "Art", "Folklore","Horror", "Graphic Novel", "Mystery", "Adult Romance ", "Thriller",
+            "Biography", "Science Fiction", "New Adult", "Westerns"
         };
 
         public CatalogContextSeed(HttpClient httpClient, IOptionsMonitor<GoogleApiOptions> options, CatalogContext ctx)
@@ -53,7 +53,7 @@ namespace BookMania.Infrastructure.Data
             var rand = new Random();
             // [a, m], [a, t]
             var (int1, int2) = (rand.Next(20) + 97, rand.Next(20) + 97);
-            string randTwoLetter = char.ConvertFromUtf32(int1) + char.ConvertFromUtf32(int2);
+            string randTwoLetter = "";//char.ConvertFromUtf32(int1) + char.ConvertFromUtf32(int2);
 
             // using partial response
             // https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&fields=items(id,volumeInfo(title,authors,publisher,publishedDate,description,categories,imageLinks),saleInfo(retailPrice))
@@ -65,7 +65,7 @@ namespace BookMania.Infrastructure.Data
                 .AddQuery("printType", "books")
                 .AddQuery("langRestrict", "en")
                 .AddQuery("maxResults", "40")
-                .AddQuery("startIndex", rand.Next(21).ToString());
+                .AddQuery("startIndex", rand.Next(100).ToString());
 
 
             var httpResponse = await client.GetAsync(queryString);
@@ -110,7 +110,7 @@ namespace BookMania.Infrastructure.Data
                     var authorsObj = authors.Select(ba => new Author(ba.Trim().ToLowerInvariant()));
                     foreach (var author in authorsObj)
                     {
-                        AddToDb(author, a => a.Name == author.Name.ToLower());
+                        AddToDb(author, a => a.Name == author.Name.ToLowerInvariant());
                     }
                     authorsObj = authorsObj.Select(author => GetFromDb<Author>(a => a.Name == author.Name));
 
@@ -164,7 +164,7 @@ namespace BookMania.Infrastructure.Data
 
         private T GetFromDb<T>(Expression<Func<T, bool>> criteria = default) where T : class
         {
-            return ctx.Set<T>().FirstOrDefault(criteria);
+            return ctx.Set<T>().AsNoTracking().FirstOrDefault(criteria);
         }
     }
 

@@ -56,6 +56,7 @@ namespace BookMania
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ICatalogViewModelService, CatalogViewModelService>();
+            services.AddScoped<IBookDetailsService, BookDetailsSerivce>();
 
             services.AddGoogleBooks(Configuration);
         }

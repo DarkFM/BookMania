@@ -115,7 +115,7 @@
                     {
                         <div class="product">
                             <div class="product__img">
-                                <img src="@book.Thumbnail" alt="Alternate Text" />
+                                <img src="@book.ImageUrl" alt="Alternate Text" />
                             </div>
                             <div class="product__icons">
                                 <div class="product__ratings" title="@(book.AverageRating == null ? "Not Rated" : book.AverageRating.ToString()+"/5")">
@@ -141,7 +141,7 @@
                             </div>
                             <div class="product__pricing">
                                 <span class="product__price">@book.Price.ToString("C")</span>
-                                <a asp-action="Item" asp-route-id="@book.BookId" class="btn btn--secondary">Select</a>
+                                <a asp-action="Product" asp-route-id="@book.BookId" class="btn btn--secondary">Select</a>
                             </div>
                         </div>
                     }

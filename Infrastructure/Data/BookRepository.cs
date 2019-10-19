@@ -48,6 +48,41 @@ namespace BookMania.Infrastructure.Data
             return PaginatedList<Book>.CreateAsync(booksFromDb, currentPage, pageSize, b => b.Title);
         }
 
+        public async override Task<Book> GetByIdAsync(int id)
+        {
+            // Expliceityl loading the required data
+            var book = await base.GetByIdAsync(id);
+
+            // https://stackoverflow.com/a/49968809
+            // might be a bug in ef core, but this will fix this issue apparently (include the calling end of the relationship)
+            _dbContext.Entry(book).Collection(b => b.BookAuthors).Query()
+                .Include(ba => ba.Book)
+                .Include(ba => ba.Author)
+                .Load();
+
+            //_dbContext.Entry(book).Collection(b => b.BookCategories).Query()
+            //    .Include(bc => bc.Book)
+            //    .Include(bc => bc.Category)
+            //    .Load();
+
+            _dbContext.Entry(book)
+                .Collection(b => b.Favorites)
+                .Load();
+
+            _dbContext.Entry(book)
+                .Collection(b => b.Reviews)
+                .Query()
+                .Include(r => r.Book)
+                .Include(r => r.User)
+                .Load();
+
+            _dbContext.Entry(book)
+                .Reference(b => b.Publisher)
+                .Load();
+
+            return book;
+        }
+
         public Task<int> GetMaxPublishedYear()
         {
             return _dbContext.Books.MaxAsync(b => b.PublishedDate.Year);

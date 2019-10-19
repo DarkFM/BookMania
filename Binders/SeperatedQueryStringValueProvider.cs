@@ -11,7 +11,8 @@ namespace BookMania.Binders
 {
     // https://www.strathweb.com/2017/07/customizing-query-string-parameter-binding-in-asp-net-core-mvc/
     /// <summary>
-    /// Responsible for 
+    /// Value Providers are the components that feed data to model binders. 
+    /// Feeding the data means installing the data to the Model binder for further use at the action level
     /// </summary>
     public class SeperatedQueryStringValueProvider : QueryStringValueProvider
     {

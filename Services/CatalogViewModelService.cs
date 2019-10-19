@@ -54,7 +54,7 @@ namespace BookMania.Services
                     Description = pb.Description,
                     Price = pb.Price,
                     AverageRating = (decimal?)pb.Reviews.Select(r => r.Rating).Average(),
-                    Thumbnail = pb.ImageUrl,
+                    ImageUrl = pb.ImageUrl,
                     Title = pb.Title,
                     IsFavorite = pb.Favorites.Any(f => f.UserId == userId && f.BookId == pb.Id),
                     Authors = pb.BookAuthors.Where(ba => ba.BookId == pb.Id).Select(ba => ba.Author.Name)

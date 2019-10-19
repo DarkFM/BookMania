@@ -1,0 +1,22 @@
+﻿@model BookDetailsViewModel
+@{
+    ViewData["Title"] = "Product";
+}
+
+    <div>Average rating: @Model.AverageRating</div>
+    <div>BookId: @Model.BookId</div>
+    <div>Title: @Model.Title</div>
+    <div>Authors: @string.Join(",", Model.Authors)</div>
+    <div>Price: @Model.Price</div>
+    <div>Publisher: @Model.Publisher</div>
+    <div>Published Date: @Model.PublishedDate</div>
+    <div>IsFavorite: @Model.IsFavorite</div>
+    <div>ImageUrl: @Model.ImageUrl</div>
+    <div>Description: @Model.Description</div>
+
+    @foreach (var review in Model.Reviews)
+    {
+        <div>@review?.Rating</div>
+        <div>@review.ReviewText</div>
+        <div>@review.UserName</div>
+    }
