@@ -1,13 +1,14 @@
 ﻿.container {
-    width: 100%;
+    /*width: 100%;*/
 
     .page-heading {
-        font-size: 5rem;
+        font-size: 4rem;
         font-weight: 600;
         text-align: center;
         text-transform: capitalize;
         height: 20rem;
         display: flex;
+        flex-flow: column nowrap;
         justify-content: center;
         align-items: center;
     }

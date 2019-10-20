@@ -1,0 +1,198 @@
+﻿.back-to-products {
+    margin: 15px 0;
+}
+
+.categories {
+    width: 50%;
+
+    .category-icon {
+        $color-primary: #aca7a7;
+        /*$color-primary: #d7d5d5;*/
+        $color-secondary: #89bec2;
+        color: $color-primary;
+        border: double 2px $color-primary;
+        font-size: 1.2rem;
+        text-decoration: none;
+        border: double 2px $color-primary;
+        padding: 4px 10px;
+        border-radius: 10px;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            background-color: $color-secondary;
+            border: double 2px $color-secondary;
+            color: lighten($color-secondary, 30%);
+        }
+    }
+}
+
+
+.product-info {
+    &__top {
+        display: flex;
+
+        > * {
+            flex: 1;
+        }
+    }
+
+    &__img-container {
+        width: 100%;
+        min-height: 320px;
+        text-align: center;
+    }
+
+    &__img {
+        width: 50%;
+        box-shadow: -7px 5px 7px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-cart {
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+
+        > *:nth-child(n+2) {
+            margin-top: 40px;
+        }
+
+        &__title {
+            font-size: 3.0rem;
+        }
+
+        &__pricing {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 70%;
+            /*height: 70px;*/
+        }
+
+        &__price {
+            color: yellowgreen;
+            font-size: 2.4rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        &__author {
+            text-transform: capitalize;
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        &__quantity {
+            display: flex;
+            flex-flow: column nowrap;
+
+            .nav-item-quantity {
+                width: 50%;
+
+                input[type="number"] {
+                    width: 20%;
+                    text-align: center;
+                }
+            }
+        }
+
+        .btn-group {
+            max-width: 140px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            height: 40px;
+
+            .add-to-cart {
+                text-transform: capitalize,
+            }
+
+            .favorite {
+                display: flex;
+                border-radius: 100px;
+                align-items: center;
+
+                img {
+                    width: 20px;
+                }
+            }
+        }
+    }
+
+    &__bottom {
+        margin-top: 40px;
+        padding: 20px 50px;
+        width: 100%;
+        border-top: rgba(172, 167, 167, 0.22) solid thin;
+    }
+
+    &__header {
+        width: 100%;
+        margin-top: 25px;
+
+        .product-tab-btn {
+            $color: #ff7b61;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            background-color: lighten($color, 20%);
+            cursor: pointer;
+
+
+            &.active {
+                color: white;
+                background-color: $color;
+            }
+        }
+    }
+
+    &__contents {
+        background-color: #e3eefc;
+        padding: 20px 20px 50px 20px;
+        margin-top: 10px;
+
+    }
+
+    [class^="tab-"] {
+        display: none;
+
+        &.active-tab {
+            display: block;
+        }
+    }
+
+
+
+    &__table {
+        width: 100%;
+        text-align: left;
+    }
+
+    &__description {
+        color: #535a63;
+        font-size: 1.7rem;
+        font-weight: 300;
+        margin: 20px 0;
+        column-count: 2;
+        column-gap: 50px;
+        column-rule: 1px solid rgba(0,0,0,0.1);
+        text-transform: lowercase;
+
+        &:first-letter {
+            text-transform: uppercase;
+        }
+    }
+
+    &__desc-row {
+        width: 100%;
+        display: table;
+        margin: 20px 0;
+
+        th, td {
+            width: 50%;
+        }
+
+        td {
+            text-transform: capitalize;
+        }
+    }
+}

@@ -3,7 +3,105 @@
     ViewData["Title"] = "Product";
 }
 
-    <div>Average rating: @Model.AverageRating</div>
+<section>
+    <header class="page-heading">
+        <p class="book-title">@Model.Title</p>
+        <div class="categories">
+            @foreach (var category in Model.Categories)
+            {
+                <a class="category-icon" asp-action="Index" asp-route-c="@category.Id">@category.Name</a>
+            }
+        </div>
+    </header>
+    <div class="back-to-products">
+        <a class="btn btn--secondary" asp-action="Index"> &#8701; See More Products</a>
+    </div>
+    <section class="product-info">
+        <div class="product-info__top">
+            <div class="product-info__img-container">
+                <img class="product-info__img" src="@Model.ImageUrl" />
+            </div>
+            <div class="product-cart">
+                <header class="product-cart__title">@Model.Title</header>
+                <div class="product-cart__pricing">
+                    <span class="product-cart__price">@Model.Price.ToString("C")</span>
+                    <span class="product-cart__author">Authors: @string.Join(",", Model.Authors)</span>
+                </div>
+                <form method="post" class="product-cart__quantity">
+                    <label class="nav-item-quantity">
+                        Quantity:
+                        <input type="number" name="quantity" value="1" min="1" />
+                    </label>
+                    <div class="btn-group">
+                        <input type="text" name="bookId" value="@Model.BookId" hidden />
+                        <button type="submit" class="add-to-cart btn btn--secondary">add to cart</button>
+                        <a class="favorite" href="#">
+                            <img src="~/images/heart-regular.svg" />
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="product-info__bottom">
+            <header class="product-info__header">
+                <a class="product-tab-btn active" data-tab-1="true">Description</a>
+                <a class="product-tab-btn" data-tab-2="true">Reviews</a>
+            </header>
+            <div class="product-info__contents">
+                <div class="tab-1 active-tab">
+                    <header class="product-info__description">@Model.Description</header>
+                    <table class="product-info__table">
+                        <tbody>
+                            <tr class="product-info__desc-row">
+                                <th>Book Author(s)</th>
+                                <td>@string.Join(",", Model.Authors)</td>
+                            </tr>
+                            <tr class="product-info__desc-row">
+                                <th>Publisher</th>
+                                <td>@Model.Publisher</td>
+                            </tr>
+                            <tr class="product-info__desc-row">
+                                <th>Year Published</th>
+                                <td>@Model.PublishedDate.Year</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-2">
+                    <section class="leave-review">
+                        <label class="review-input-title">
+                            <span>Add a title:</span>
+                            <input type="text" name="review_title" placeholder="What's most important to know?" />
+                        </label>
+                        <label class="review-input-body">
+                            <span>Add a written review</span>
+                            <textarea name="review_content"
+                                      placeholder="What did you like or dislike?"></textarea>
+                        </label>
+                    </section>
+                    <section class="other-reviews">
+                        @foreach (var review in Model.Reviews)
+                        {
+                            <div class="review">
+                                <h6>@review.UserName</h6>
+                                <div class="product__ratings" title="@(review.Rating == null ? "Not Rated" : review.Rating.ToString()+"/5")">
+                                    <div class="star star-1"></div>
+                                    <div class="star star-2"></div>
+                                    <div class="star star-3"></div>
+                                    <div class="star star-4"></div>
+                                    <div class="star star-5"></div>
+                                </div>
+                                <p class="review-text">@review.ReviewText</p>
+                            </div>
+                        }
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+@*<div>Average rating: @Model.AverageRating</div>
     <div>BookId: @Model.BookId</div>
     <div>Title: @Model.Title</div>
     <div>Authors: @string.Join(",", Model.Authors)</div>
@@ -19,4 +117,35 @@
         <div>@review?.Rating</div>
         <div>@review.ReviewText</div>
         <div>@review.UserName</div>
-    }
+    }*@
+
+@section Scripts {
+    <script>
+        function toggleTab(ev) {
+            const { target } = ev;
+            if (!target.classList.contains('product-tab-btn'))
+                return;
+
+            console.log(target.classList)
+            if (target.dataset['tab-1']) {
+                tabBtns[0].classList.add('active');
+                tabBtns[1].classList.remove('active');
+
+                tabs[0].classList.add('active-tab')
+                tabs[1].classList.remove('active-tab')
+            } else {
+                tabBtns[1].classList.add('active');
+                tabBtns[0].classList.remove('active');
+
+                tabs[1].classList.add('active-tab')
+                tabs[0].classList.remove('active-tab')
+            }
+        }
+
+        const tabBtns = document.querySelectorAll('.product-tab-btn');
+
+        document.querySelector('.product-info__header').addEventListener('click', toggleTab);
+        const tabs = document.querySelectorAll("[class^='tab-'");
+                //document.querySelector()
+    </script>
+}

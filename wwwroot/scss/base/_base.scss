@@ -13,11 +13,17 @@ html {
 
 body {
     font-size: $default_font-size;
-    padding: $base_body_padding;
+    /*padding: $base_body_padding;*/
     padding-top: 0;
-    max-width: $base_body_max-width;
-    margin: auto;
+    /*max-width: $base_body_max-width;*/
+    /*margin: auto;*/
     /*background-color: #EAF2FD;*/
     background-color: $default_bg-color;
     font-family: $default_font-family;
+}
+
+.container {
+    padding: $base_body_padding;
+    margin: auto;
+    max-width: $base_body_max-width;
 }

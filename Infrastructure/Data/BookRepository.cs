@@ -60,10 +60,10 @@ namespace BookMania.Infrastructure.Data
                 .Include(ba => ba.Author)
                 .Load();
 
-            //_dbContext.Entry(book).Collection(b => b.BookCategories).Query()
-            //    .Include(bc => bc.Book)
-            //    .Include(bc => bc.Category)
-            //    .Load();
+            _dbContext.Entry(book).Collection(b => b.BookCategories).Query()
+                .Include(bc => bc.Book)
+                .Include(bc => bc.Category)
+                .Load();
 
             _dbContext.Entry(book)
                 .Collection(b => b.Favorites)

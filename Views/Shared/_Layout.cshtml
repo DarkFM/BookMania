@@ -22,8 +22,8 @@
     <link rel="stylesheet" href="~/css/styles.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar">
+    <nav class="navbar">
+        <div class="nav-container">
             <a asp-controller="Home" asp-action="Index" class="navbar__logo">
                 <i class="far fa-bookmark"></i> Book<span>Mania</span>
             </a>
@@ -45,8 +45,8 @@
                     <a href="#" title="View Cart" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
     <div class="container">
         <main role="main">
             @RenderBody()

@@ -7,6 +7,7 @@ namespace BookMania.ViewModels
     {
         public string Publisher { get; set; }
         public DateTime PublishedDate { get; set; }
+        public IEnumerable<CategoryViewModel> Categories { get; set; }
         public IEnumerable<ReviewViewModel> Reviews { get; set; }
     }
 }

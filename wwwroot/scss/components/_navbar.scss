@@ -1,16 +1,26 @@
 ﻿.navbar {
     display: block;
     width: 100%;
-    display: flex;
-    justify-content: space-evenly;
     padding: $navbar-padding;
     position: sticky;
     top: 0;
     z-index: 10;
     background-color: #f0f4fb;
+    box-shadow: 0 10px 44px -16px rgba(0, 0, 0, 0.2);
 
-    > * {
-        flex: 1;
+    .nav-container {
+        display: flex;
+        max-width: 144rem;
+        justify-content: space-evenly;
+        margin: auto;
+
+        > * {
+            flex: 1;
+        }
+
+        .navbar__search-group {
+            flex-grow: 2;
+        }
     }
 
     &__logo {
@@ -102,12 +112,13 @@
         justify-content: flex-end;
 
         .nav-links-container {
-            width: 70%;
+            width: 60%;
             display: flex;
             justify-content: space-around;
         }
 
-        .nav-icon:link {
+        .nav-icon:link,
+        .nav-icon i {
             text-decoration: none;
             color: inherit;
             font-size: 2rem;

@@ -21,8 +21,10 @@ namespace BookMania.Services
             var book = await _bookRepository.GetByIdAsync(bookId);
             var vm = new BookDetailsViewModel
             {
-                Authors = book.BookAuthors.Select(b => b.Author.Name),
                 BookId = book.Id,
+                Categories = book.BookCategories
+                    .Select(bc => new CategoryViewModel { Id = bc.CategoryId, Name = bc.Category.Name }),
+                Authors = book.BookAuthors.Select(b => b.Author.Name),
                 Description = book.Description,
                 ImageUrl = book.ImageUrlLarge,
                 IsFavorite = book.Favorites.Any(f => f.UserId == userId),
