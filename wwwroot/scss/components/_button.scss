@@ -77,4 +77,12 @@
         background-color: #F85949;
         color: $default_bg-color;
     }
+
+    &--transparent {
+        background-color: transparent;
+        color: $grey-primary;
+        border: 1px solid lighten($grey-primary, 25%);
+        border-radius: 2px;
+        padding: 10px 20px;
+    }
 }

@@ -9,70 +9,70 @@
     @include responsive(mobile) {
         margin-bottom: 6rem;
     }*/
+    margin: 20px;
+    padding: 10px 20px;
 
     &__group {
         position: relative;
+        display: flex;
+        flex-flow: row nowrap;
+        width: 100%;
 
-        :not(:last-child) {
+        &:not(:last-child) {
             margin-bottom: 1.5em;
         }
     }
 
+    &__label,
+    &__input {
+        padding: 8px 0;
+    }
+
     &__label {
-        position: absolute;
-        transition: all .5s;
+        flex: 0 0 30%;
+        background-color: #e0e8f17d;
+        text-align: center;
+        color: #254e35;
+        border: solid rgba(128, 128, 128, 0.3) 1px;
+        border-right: none;
+        font-size: 1.4rem;
+
+        &::after {
+            content: " *";
+            color: red;
+        }
+
+        &--check {
+            margin: 0 5px;
+        }
     }
 
     &__input {
-        font-weight: 600;
-        padding: 1.5rem 6rem 1.5rem 2.5rem;
-        border-radius: 5px;
-        display: block;
-        width: 100%;
-        /*border: 2px solid lighten($color-neutral-2, 15%);*/
-        font-family: inherit;
-        transition: border .2s ease;
+        flex: 1;
+        font-size: 1.6rem;
+        padding-left: 20px;
+        border: solid rgba(128, 128, 128, 0.30) 1px;
+
 
         &:focus {
+            outline: solid rgba(128, 128, 128, 0.50) 1px;
             /*border: 2px solid $color-neutral-2;*/
         }
     }
 
-    &__input:placeholder-shown ~ &__label {
-        opacity: 0;
-        visibility: hidden;
+    .btn-container {
+        display: flex;
+        flex: 1;
+        justify-content: center;
     }
 
-    &__validation {
-        font-style: italic;
-        /*color: $color-primary-1;*/
-        display: inline-block;
-        width: 100%;
-        text-align: right;
-        transform: translateY(-20px);
-        transition: all 0.4s;
+    .validation-summary-errors {
+        margin: 20px 0;
+        color: red;
+        font-size: 1.4rem;
 
-        &::after {
-            content: url("../images/icon-error.svg");
-            display: block;
-            position: absolute;
-            right: 20px;
-            top: -45px;
+        ul {
+            list-style: none;
         }
-    }
-
-    &__input:invalid + &__validation {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    &__input:invalid &__validation, &__input:valid + &__validation {
-        opacity: 0;
-        visibility: hidden;
-        display: none;
-    }
-
-    [type="submit"] {
-        margin-bottom: 1.5rem;
     }
 }

@@ -1,0 +1,33 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<header class="page-heading">
+    Login
+</header>
+<section class="login-form">
+    <form class="form" asp-action="Login">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form__group">
+            <label class="form__label" asp-for="EmailUserName"></label>
+            <input class="form__input" asp-for="EmailUserName" placeholder="Email or Username" />
+        </div>
+        <div class="form__group">
+            <label class="form__label" asp-for="Password"></label>
+            <input class="form__input" asp-for="Password" placeholder="Password" />
+        </div>
+        <div class="form__group">
+            <input asp-for="PersistUser" />
+            <label class="form__label--check" asp-for="PersistUser"></label>
+        </div>
+        <div class="form__group">
+            <div class="btn-container">
+                <input class="btn btn--secondary" type="submit" value="Login In" />
+            </div>
+            <div class="btn-container">
+                <a class="btn btn--transparent" asp-action="Register">Don't have an Account?</a>
+            </div>
+        </div>
+    </form>
+</section>

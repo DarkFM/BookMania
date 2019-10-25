@@ -1,0 +1,45 @@
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<header class="page-heading">
+    Register
+</header>
+<section class="register-form">
+    <form class="form" asp-action="Register">
+        <div class="form__group">
+            <label class="form__label" asp-for="FirstName"></label>
+            <input class="form__input" asp-for="FirstName" />
+        </div>
+        <div class="form__group">
+            <label class="form__label" asp-for="LastName"></label>
+            <input class="form__input" asp-for="LastName" />
+        </div>
+        <div class="form__group">
+            <label class="form__label" asp-for="UserName"></label>
+            <input class="form__input" asp-for="UserName" />
+        </div>
+        <div class="form__group">
+            <label class="form__label" asp-for="Email"></label>
+            <input class="form__input" asp-for="Email" />
+        </div>
+        <div class="form__group">
+            <label class="form__label" asp-for="Password"></label>
+            <input class="form__input" asp-for="Password" />
+        </div>
+        <div class="form__group">
+            <label class="form__label" asp-for="ConfirmPassword"></label>
+            <input class="form__input" asp-for="ConfirmPassword" />
+        </div>
+        <div class="form__group">
+            <div class="btn-container">
+                <input class="btn btn--secondary" type="submit" value="Register" />
+            </div>
+            <div class="btn-container">
+                <a class="btn btn--transparent" asp-controller="Products" asp-action="Index">Cancel</a>
+            </div>
+        </div>
+        <div asp-validation-summary="All"></div>
+    </form>
+</section>

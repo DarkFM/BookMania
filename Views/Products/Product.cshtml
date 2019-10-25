@@ -25,7 +25,7 @@
                 <header class="product-cart__title">@Model.Title</header>
                 <div class="product-cart__pricing">
                     <span class="product-cart__price">@Model.Price.ToString("C")</span>
-                    <span class="product-cart__author">Authors: @string.Join(",", Model.Authors)</span>
+                    <span class="product-cart__author">Authors: @string.Join(", ", Model.Authors)</span>
                 </div>
                 <form method="post" class="product-cart__quantity">
                     <label class="nav-item-quantity">

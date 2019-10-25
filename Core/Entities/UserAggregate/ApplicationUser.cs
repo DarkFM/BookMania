@@ -17,14 +17,13 @@ namespace BookMania.Core.Entities.UserAggregate
         {
         }
 
-        public ApplicationUser(string firstName, string lastName, List<PaymentDetails> paymentOptions = default)
+        public ApplicationUser(string firstName, string lastName)
         {
             lastName.ThrowIfNullOrWhiteSpace($"{nameof(lastName)} cannot be null/white-space");
             firstName.ThrowIfNullOrWhiteSpace($"{nameof(firstName)} cannot be null/white-space");
 
             FirstName = firstName;
             LastName = lastName;
-            _paymentOptions = paymentOptions;
         }
 
         public string FirstName { get; set; }
