@@ -48,11 +48,26 @@ namespace BookMania
                 options.EnableDetailedErrors();
             });
 
-            services.AddIdentityCore<ApplicationUser>(opts => opts.User.RequireUniqueEmail = true)
+            services.AddIdentity<ApplicationUser, IdentityRole<int>>(opts =>
+            {
+                opts.User.RequireUniqueEmail = true;
+                opts.Password.RequiredLength = 4;
+                opts.Password.RequireDigit = false;
+                opts.Password.RequireUppercase = false;
+
+                const string letters = "abcdefghijklmnopqrstuvwxyz";
+                opts.User.AllowedUserNameCharacters = letters + letters.ToUpperInvariant() + "-_,+";
+            })
                 .AddEntityFrameworkStores<CatalogContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddHttpClient<CatalogContextSeed>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Account/Login";
+                options.LogoutPath = "Account/Logut";
+                options.Cookie.MaxAge = TimeSpan.FromDays(1);
+            });
+
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ICatalogViewModelService, CatalogViewModelService>();

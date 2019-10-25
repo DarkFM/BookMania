@@ -2,13 +2,14 @@
 using BookMania.Core.Entities.BookAggregate;
 using BookMania.Core.Entities.OrderAggregate;
 using BookMania.Core.Entities.UserAggregate;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace BookMania.Infrastructure.Data
 {
-    public class CatalogContext : IdentityUserContext<ApplicationUser, int>
+    public class CatalogContext : IdentityDbContext<ApplicationUser, IdentityRole<int>, int> //IdentityUserContext<ApplicationUser, int>
     {
         public CatalogContext(DbContextOptions<CatalogContext> options)
             : base(options)
