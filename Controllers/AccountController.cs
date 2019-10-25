@@ -114,6 +114,13 @@ namespace BookMania.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Products");
+        }
+
         [AcceptVerbs("Get", "Post")]
         public async Task<IActionResult> VerifyEmail(string email)
         {

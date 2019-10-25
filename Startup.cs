@@ -63,8 +63,8 @@ namespace BookMania
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = $"/Account/Login";
-                options.LogoutPath = "Account/Logut";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
                 options.Cookie.MaxAge = TimeSpan.FromDays(1);
             });
 
