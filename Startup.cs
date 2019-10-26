@@ -70,10 +70,14 @@ namespace BookMania
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICatalogViewModelService, CatalogViewModelService>();
             services.AddScoped<IBookDetailsService, BookDetailsSerivce>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddGoogleBooks(Configuration);
+
+            //services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,6 +98,7 @@ namespace BookMania
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

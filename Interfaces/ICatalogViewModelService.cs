@@ -8,6 +8,6 @@ namespace BookMania.Interfaces
 {
     public interface ICatalogViewModelService
     {
-        Task<CatalogViewModel> GetFilteredCatalogItemsAsync(int userId, FilterResponseViewModel responseFilters, int pageSize = default);
+        Task<CatalogViewModel> GetFilteredCatalogItemsAsync(FilterResponseViewModel responseFilters, int? userId = default, int pageSize = 30);
     }
 }

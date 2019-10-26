@@ -78,6 +78,16 @@
 
     &__categories, &__search-btn {
         position: absolute;
+
+    }
+
+    &__welcome {
+        line-height: 1.6;
+        font-size: 1.4rem;
+    }
+
+    &__username {
+        color: #b5282c;
     }
 
     &__categories {

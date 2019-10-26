@@ -32,7 +32,7 @@ namespace BookMania.Services
             _logger = logger;
         }
 
-        public async Task<CatalogViewModel> GetFilteredCatalogItemsAsync(int userId, FilterResponseViewModel responseFilters, int pageSize = 30)
+        public async Task<CatalogViewModel> GetFilteredCatalogItemsAsync(FilterResponseViewModel responseFilters, int? userId, int pageSize = 30)
         {
             _logger.LogInformation("GetFilteredCatalogItemsAsync called.");
 
@@ -67,7 +67,7 @@ namespace BookMania.Services
                 }),
                 Categories = allCategories.Select(c => new CategoryViewModel()
                 {
-                    Id = c.Id,
+                    Id = c.Id, 
                     Name = c.Name,
                     IsSelected = categories.Any(selectedId => selectedId == c.Id)
                 }),

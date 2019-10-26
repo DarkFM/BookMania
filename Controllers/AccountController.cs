@@ -1,10 +1,14 @@
 ﻿using BookMania.Core.Entities.UserAggregate;
+using BookMania.Interfaces;
 using BookMania.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BookMania.Controllers
@@ -102,6 +106,8 @@ namespace BookMania.Controllers
 
             if (result.Succeeded)
             {
+                await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+
                 return RedirectToAction(nameof(Login));
             }
             else
@@ -112,6 +118,18 @@ namespace BookMania.Controllers
                 }
                 return View(model);
             }
+        }
+
+        [HttpGet]
+        public ActionResult Manage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Manage(int ff)
+        {
+            return NotFound();
         }
 
         [HttpPost]

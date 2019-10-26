@@ -16,9 +16,7 @@ namespace BookMania.Infrastructure.Data
     {
         public BookRepository(CatalogContext dbContext)
             : base(dbContext)
-        {
-
-        }
+        { }
 
         public Task<PaginatedList<Book>> GetFilteredBooksWithDataAsync(
             IEnumerable<int> categories,
@@ -45,7 +43,10 @@ namespace BookMania.Infrastructure.Data
             if (publishers.Any())
                 booksFromDb = booksFromDb.Where(b => publishers.Contains(b.PublisherId));
 
-            return PaginatedList<Book>.CreateAsync(booksFromDb, currentPage, pageSize, b => b.Title);
+            //if (userId != null)
+            //    booksFromDb = booksFromDb.Where(b => b.Favorites.Any(f => f.UserId == userId));
+
+            return PaginatedList<Book>.CreateAsync(booksFromDb, currentPage, pageSize, orderBy: b => b.Title);
         }
 
         public async override Task<Book> GetByIdAsync(int id)

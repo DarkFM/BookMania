@@ -47,21 +47,21 @@ namespace BookMania.Core
         /// <param name="pageIndex">The current page index.</param>
         /// <param name="pageSize">The total items shown per page.</param>
         /// <returns></returns>
-        public static async Task<PaginatedList<T>> CreateAsync<TSort>(IQueryable<T> source, int pageIndex, int pageSize, Expression<Func<T, TSort>> orderBy)
+        public static Task<PaginatedList<T>> CreateAsync<TSort>(IQueryable<T> source, int pageIndex, int pageSize, Expression<Func<T, TSort>> orderBy)
         {
-            var countTask = source.CountAsync();
+            var count = source.Count();
             var numberItemsToSkip = pageSize * (pageIndex - 1);
 
-            var itemsTask = source
+            var items = source
                 .OrderBy(orderBy)
                 .Skip(numberItemsToSkip)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToList();
 
-            var count = await countTask;
-            var items = await itemsTask;
+            //var count = await countTask;
+            //var items = await itemsTask;
 
-            return new PaginatedList<T>(items, count, pageIndex, pageSize);
+            return Task.FromResult(new PaginatedList<T>(items, count, pageIndex, pageSize));
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using BookMania.Core.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BookMania.Core.Entities.BookAggregate
 {
@@ -21,5 +19,16 @@ namespace BookMania.Core.Entities.BookAggregate
 
         public string Name { get; set; }
         public ICollection<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
+
+        public override bool Equals(object x)
+        {
+            var newX = x as Author;
+            return (newX.Name == this.Name) && (newX.Id == this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Id);
+        }
     }
 }

@@ -14,7 +14,10 @@
         </div>
     </header>
     <div class="back-to-products">
-        <a class="btn btn--secondary" asp-action="Index"> &#8701; See More Products</a>
+        @{ 
+            Context.Request.Query.TryGetValue("returnUrl", out var returnUrl);
+        }
+        <a class="btn btn--secondary" href="@returnUrl"> &#8701; Previous Page</a>
     </div>
     <section class="product-info">
         <div class="product-info__top">
@@ -36,7 +39,15 @@
                         <input type="text" name="bookId" value="@Model.BookId" hidden />
                         <button type="submit" class="add-to-cart btn btn--secondary">add to cart</button>
                         <a class="favorite" href="#">
-                            <img src="~/images/heart-regular.svg" />
+                            @if (Model.IsFavorite)
+                            {
+                                <i class="fas fa-heart"></i>
+                            }
+                            else
+                            {
+                                <i class="far fa-heart"></i>
+                            }
+                            @*<img src="~/images/heart-regular.svg" />*@
                         </a>
                     </div>
                 </form>

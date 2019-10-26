@@ -22,31 +22,7 @@
     <link rel="stylesheet" href="~/css/styles.css" />
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a asp-controller="Home" asp-action="Index" class="navbar__logo">
-                <i class="far fa-bookmark"></i> Book<span>Mania</span>
-            </a>
-            <form action="/" method="get" class="navbar__search-group">
-                <select class="navbar__categories" name="categories">
-                    <option value="0">All</option>
-                    <option value="1">Horror</option>
-                    <option value="2">Biography</option>
-                    <option value="3">Action and adventure </option>
-                    <option value="4">Fantasy</option>
-                </select>
-                <input type="search" name="query" autocomplete="off" placeholder="Search Thousands of Books..." />
-                <button class="navbar__search-btn" type="submit"><i class="fas fa-search"></i></button>
-            </form>
-            <div class="navbar__nav-links">
-                <div class="nav-links-container">
-                    <a href="#" title="Favourites" class="nav-icon"><i class="far fa-heart"></i></a>
-                    <a asp-controller="Account" asp-action="Login" title="SignIn/Register" class="nav-icon"><i class="fas fa-sign-in-alt"></i></a>
-                    <a href="#" title="View Cart" class="nav-icon"><i class="fas fa-shopping-cart"></i></a>
-                </div>
-            </div>
-        </div>
-    </nav>
+    @await Component.InvokeAsync("Navbar")
     <div class="container">
         <main role="main">
             @RenderBody()

@@ -1,0 +1,41 @@
+﻿@*@model List<BookDetailsViewModel>
+    @{
+        ViewData["Title"] = "Favorites";
+    }
+
+    @if (!Model.Any())
+    {
+        <header class="page-heading">You have no favorites saved!!</header>
+    }
+    @foreach (var bookItem in Model)
+    {
+        <div>
+            <div>Title: @bookItem.Title</div>
+            <div>Authors: @string.Join(", ", bookItem.Authors)</div>
+            <div>Price: @bookItem.Price</div>
+            <div>ImageUrl: @bookItem.ImageUrl</div>
+            <p>Description: @bookItem.Description</p>
+            <div>Publisher: @bookItem.Publisher</div>
+            <div>PublishedYear: @bookItem.PublishedDate.Year</div>
+            <div>Categories: @string.Join(", ", bookItem.Categories.Select(c => c.Name))</div>
+
+        </div>
+    }*@
+
+
+@using System.Globalization;
+@using Microsoft.AspNetCore.Http.Extensions;
+
+@model CatalogViewModel
+
+@{
+    ViewData["Title"] = "Favorites";
+    var pageLocation = Context.Request.GetDisplayUrl();
+}
+
+<section class="">
+    <header class="page-heading">
+        Favorites
+    </header>
+    <partial name="_ProductListPartial" model="@Model" />
+</section>
