@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BookMania.Core.Entities.UserAggregate;
-using BookMania.Core.Interfaces;
-using BookMania.Extensions;
-using BookMania.Infrastructure.Data;
+using BookMania.Data;
+using BookMania.Data.Interfaces;
+using BookMania.Data.Models;
+using BookMania.Infrastructure.Config;
 using BookMania.Interfaces;
-using BookMania.Services;
+using BookMania.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -68,16 +64,11 @@ namespace BookMania
                 options.Cookie.MaxAge = TimeSpan.FromDays(1);
             });
 
-            services.AddScoped(typeof(IAsyncRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IBookRepository, BookRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ICatalogViewModelService, CatalogViewModelService>();
-            services.AddScoped<IBookDetailsService, BookDetailsSerivce>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBook, BookService>();
+            services.AddScoped<IApplicationUser, UserService>();
 
-            services.AddGoogleBooks(Configuration);
+            services.Configure<GoogleApiOptions>(Configuration);
 
-            //services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

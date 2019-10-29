@@ -13,7 +13,8 @@
 
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Data\Migrations\" />
+    <ProjectReference Include="..\BookMaina.Data\BookMania.Data.csproj" />
+    <ProjectReference Include="..\BookMania.Service\BookMania.Service.csproj" />
   </ItemGroup>
 
 </Project>

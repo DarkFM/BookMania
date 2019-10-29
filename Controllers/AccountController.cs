@@ -1,13 +1,7 @@
-﻿using BookMania.Core.Entities.UserAggregate;
-using BookMania.Interfaces;
+﻿using BookMania.Data.Models;
 using BookMania.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
