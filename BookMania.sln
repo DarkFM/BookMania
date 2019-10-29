@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookMania", "BookMania.csproj", "{C6706E53-C315-499F-BAA4-883162FA1CDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookMania.Data", "..\BookMaina.Data\BookMania.Data.csproj", "{07EB9FD8-59A2-402E-90DE-8C0F650C0A57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookMania.Data", ".\BookMaina.Data\BookMania.Data.csproj", "{07EB9FD8-59A2-402E-90DE-8C0F650C0A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookMania.Service", "..\BookMania.Service\BookMania.Service.csproj", "{8E0C1F64-CF08-4E7B-86C2-201FB8C88E2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookMania.Service", ".\BookMania.Service\BookMania.Service.csproj", "{8E0C1F64-CF08-4E7B-86C2-201FB8C88E2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookMania.Infrastructure", "..\BookMania.Infrastructure\BookMania.Infrastructure.csproj", "{E7B8DD5D-5744-4BE1-9ADC-1F3A9A208864}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookMania.Infrastructure", ".\BookMania.Infrastructure\BookMania.Infrastructure.csproj", "{E7B8DD5D-5744-4BE1-9ADC-1F3A9A208864}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
