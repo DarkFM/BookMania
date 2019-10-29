@@ -25,6 +25,8 @@ namespace BookMania.Data
             "Biography", "Science Fiction", "New Adult", "Westerns"
         };
 
+        private readonly ICollection<string> _authors = new List<string> { "William Shakespeare", "Agatha Christie", "Barbara Cartland", "Danielle Steel", "Harold Robbins", "Georges Simenon", "Enid Blyton", "Sidney Sheldon", "J. K. Rowling", "Gilbert Patten", "Dr. Seuss", "Eiichiro Oda", "Corín Tellado", "Jackie Collins", "Horatio Alger", "R. L. Stine", "Dean Koontz", "Nora Roberts", "Akira Toriyama", "Alexander Pushkin", "Stephen King", "Paulo Coelho", "Jeffrey Archer", "Louis L'Amour", "René Goscinny", "Erle Stanley Gardner", "Edgar Wallace", "Jirō Akagawa", "Janet Dailey", "Robert Ludlum", "Osamu Tezuka", "James Patterson", "Frédéric Dard", "Stan and Jan Berenstain", "Roald Dahl", "John Grisham", "Zane Grey", "Irving Wallace", "J. R. R. Tolkien", "Masashi Kishimoto", "Karl May", "Carter Brown", "Mickey Spillane", "C. S. Lewis", "Kyotaro Nishimura", "Mitsuru Adachi", "Rumiko Takahashi", "Gosho Aoyama", "Dan Brown", "Ann M. Martin", "Ryōtarō Shiba", "Arthur Hailey", "Gérard de Villiers", "Beatrix Potter", "Michael Crichton", "Richard Scarry", "Clive Cussler", "Alistair MacLean", "Ken Follett", "Astrid Lindgren", "Debbie Macomber", "Eiji Yoshikawa", "Catherine Cookson", "Stephenie Meyer", "Norman Bridwell", "David Baldacci", "Hirohiko Araki", "Evan Hunter", "Andrew Neiderman", "Roger Hargreaves", "Anne Rice", "Robin Cook", "Wilbur Smith", "Erskine Caldwell", "Eleanor Hibbert", "Lewis Carroll", "Denise Robins", "Cao Xueqin", "Ian Fleming", "Hermann Hesse", "Rex Stout", "Anne Golon", "Frank G. Slaughter", "Edgar Rice Burroughs", "John Creasey", "James A. Michener", "Yasuo Uchida", "Seiichi Morimura", "Mary Higgins Clark", "Penny Jordan", "Patricia Cornwell", "Tom Clancy" };
+
         public CatalogContextSeed(HttpClient httpClient, IOptionsMonitor<GoogleApiOptions> options, CatalogContext ctx)
         {
             apiOptions = options.CurrentValue;
@@ -38,13 +40,13 @@ namespace BookMania.Data
 
         public async Task GetBooks()
         {
-            foreach (var category in _catageories)
+            foreach (var category in _authors)
             {
                 await GetRandomBooksAsync(category.ToLower());
             }
         }
 
-        public async Task<GoogleResponse> GetRandomBooksAsync(string category = "")
+        public async Task<GoogleResponse> GetRandomBooksAsync(string author)
         {
             var rand = new Random();
             // [a, m], [a, t]
@@ -56,12 +58,12 @@ namespace BookMania.Data
             // https://developers.google.com/books/docs/v1/performance.html#partial-response
             var queryString = $"?key={apiOptions.ApiKey}"
                 .AddQuery("fields", "items(id,volumeInfo(title,authors,publisher,publishedDate,description,categories,imageLinks),saleInfo(retailPrice))")
-                .AddQuery("q", $"{randTwoLetter}+subject:{Uri.EscapeDataString(category)}")
+                .AddQuery("q", $"{randTwoLetter}+inauthor:{Uri.EscapeDataString(author)}")
                 .AddQuery("filter", "paid-ebooks")
-                .AddQuery("printType", "books")
+                //.AddQuery("printType", "books")
                 .AddQuery("langRestrict", "en")
                 .AddQuery("maxResults", "40")
-                .AddQuery("startIndex", rand.Next(100).ToString());
+                .AddQuery("startIndex", rand.Next(5).ToString());
 
 
             var httpResponse = await client.GetAsync(queryString);
@@ -75,13 +77,18 @@ namespace BookMania.Data
                 return;
 
             // loop through catagories and get books for each
-            foreach (var category in _catageories)
+            foreach (var author in _authors)
             {
 
-                var response = await GetRandomBooksAsync(category);
+                var response = await GetRandomBooksAsync(author);
 
                 foreach (var productInfo in response.Items)
                 {
+                    // Skip this result if any value is invalid
+                    // helps prvent missing data added to DB
+                    if (!productInfo.IsValid())
+                        continue;
+
                     var (_, volumeInfo, salesInfo) = productInfo;
 
                     // VolumeInfo Details
@@ -91,7 +98,6 @@ namespace BookMania.Data
 
                     // SalesInfo Details
                     var (price, currency) = salesInfo.RetailPrice;
-
 
                     // *********** Saving data to database ****************
 
@@ -104,13 +110,13 @@ namespace BookMania.Data
                     book = GetFromDb<Book>(b => b.Title == book.Title && b.PublishedDate == publishedDate);
 
                     var authorsObj = authors.Select(ba => new Author(ba.Trim().ToLowerInvariant()));
-                    foreach (var author in authorsObj)
+                    foreach (var nauthor in authorsObj)
                     {
-                        AddToDb(author, a => a.Name == author.Name.ToLowerInvariant());
+                        AddToDb(nauthor, a => a.Name == nauthor.Name.ToLowerInvariant());
                     }
-                    authorsObj = authorsObj.Select(author => GetFromDb<Author>(a => a.Name == author.Name));
+                    authorsObj = authorsObj.Select(nauthor => GetFromDb<Author>(a => a.Name == nauthor.Name));
 
-                    var bookAuthors2 = authorsObj.Select(author => new BookAuthor() { Author = author, Book = book });
+                    var bookAuthors2 = authorsObj.Select(nauthor => new BookAuthor() { Author = nauthor, Book = book });
                     foreach (var bookAuthor in bookAuthors2)
                     {
                         AddToDb(bookAuthor);
@@ -182,6 +188,11 @@ namespace BookMania.Data
             volumeinfo = VolumeInfo;
             saleinfo = SaleInfo;
         }
+
+        public bool IsValid()
+        {
+            return VolumeInfo.IsValid() && SaleInfo.IsValid();
+        }
     }
 
     public class Volumeinfo
@@ -213,6 +224,15 @@ namespace BookMania.Data
             categories = Categories;
             imagelinks = ImageLinks;
         }
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(Title)
+                && !string.IsNullOrWhiteSpace(Publisher)
+                && !string.IsNullOrWhiteSpace(Description)
+                && Authors.Any()
+                && ImageLinks.IsValid();
+        }
     }
 
     public class Imagelinks
@@ -225,11 +245,21 @@ namespace BookMania.Data
             smallThumbnail = SmallThumbnail;
             largeThumbnail = Thumbnail;
         }
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(SmallThumbnail);
+        }
     }
 
     public class Saleinfo
     {
         public Retailprice RetailPrice { get; set; } = new Retailprice();
+
+        public bool IsValid()
+        {
+            return RetailPrice.IsValid();
+        }
     }
 
     public class Retailprice
@@ -241,6 +271,11 @@ namespace BookMania.Data
         {
             amount = Amount;
             currencyCode = CurrencyCode;
+        }
+
+        public bool IsValid()
+        {
+            return !string.IsNullOrWhiteSpace(CurrencyCode);
         }
     }
 

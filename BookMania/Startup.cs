@@ -39,12 +39,13 @@ namespace BookMania
 
             services.AddDbContext<CatalogContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("CatalogContext"));
+                options.UseSqlServer(Configuration.GetConnectionString("CatalogContext"), 
+                    opt => opt.MigrationsAssembly(typeof(CatalogContext).Assembly.GetName().Name));
                 options.EnableSensitiveDataLogging();
                 options.EnableDetailedErrors();
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole<int>>(opts =>
+            services.AddDefaultIdentity<ApplicationUser>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 4;

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookMaina.Data\BookMania.Data.csproj" />
+    <ProjectReference Include="..\BookMania.Data\BookMania.Data.csproj" />
   </ItemGroup>
 
 </Project>

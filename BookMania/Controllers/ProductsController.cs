@@ -1,4 +1,5 @@
-﻿using BookMania.Filters;
+﻿using BookMania.Data.Interfaces;
+using BookMania.Filters;
 using BookMania.Interfaces;
 using BookMania.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -16,17 +17,20 @@ namespace BookMania.Controllers
     public class ProductsController : Controller
     {
         private readonly ILogger<ProductsController> _logger;
+        private readonly IBook _bookService;
 
-        public ProductsController(ILogger<ProductsController> logger)
+        public ProductsController(ILogger<ProductsController> logger, IBook bookService)
         {
             _logger = logger;
+            _bookService = bookService;
         }
 
         [HttpGet]
         [SeperatedQueryString]
-        public async Task<IActionResult> Index([FromQuery]FilterResponseViewModel viewModel)
+        public async Task<IActionResult> Index([FromQuery]FilterResponseViewModel filterModel)
         {
-            //viewModel.CurrentPage = viewModel.CurrentPage < 1 ? 1 : viewModel.CurrentPage;
+            filterModel.CurrentPage = filterModel.CurrentPage < 1 ? 1 : filterModel.CurrentPage;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             //int.TryParse(userId, out int id);
             //var catalogViewModel = await _catalogViewModelService.GetFilteredCatalogItemsAsync(viewModel, id);
