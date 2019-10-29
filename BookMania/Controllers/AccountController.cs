@@ -32,7 +32,7 @@ namespace BookMania.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromForm] LoginViewModel model)
+        public async Task<IActionResult> Login([FromForm] LoginVM model)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace BookMania.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterVM model)
         {
             if (!ModelState.IsValid)
             {

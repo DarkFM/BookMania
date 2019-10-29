@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BookMania.ViewModels
 {
-    public class LoginViewModel
+    public class LoginVM
     {
         [DataType(DataType.Text)]
         [Required]

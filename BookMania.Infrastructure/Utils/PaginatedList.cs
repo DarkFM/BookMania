@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace BookMania.Core
+namespace BookMania.Infrastructure.Utils
 {
     /// <summary>
     /// Object that holds a paginated list of <typeparamref name="T"/>
@@ -27,6 +27,10 @@ namespace BookMania.Core
         /// </summary>
         public int TotalItems { get; }
 
+        public bool HasPreviousPage => CurrentPage > 1;
+
+        public bool HasNextPage => CurrentPage < TotalPages;
+
         public PaginatedList(List<T> items, int totalItemCount, int pageIndex, int pageSize)
         {
             CurrentPage = pageIndex;
@@ -36,8 +40,6 @@ namespace BookMania.Core
             this.AddRange(items);
         }
 
-        public bool HasPreviouspage => CurrentPage > 1;
-        public bool HasNextPage => CurrentPage < TotalPages;
 
         /// <summary>
         /// Creates a new paged list of <typeparamref name="T"/>.
@@ -55,9 +57,6 @@ namespace BookMania.Core
                 .Skip(numberItemsToSkip)
                 .Take(pageSize)
                 .ToList();
-
-            //var count = await countTask;
-            //var items = await itemsTask;
 
             return Task.FromResult(new PaginatedList<T>(items, count, pageIndex, pageSize));
         }

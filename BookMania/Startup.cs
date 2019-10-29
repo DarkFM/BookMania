@@ -45,7 +45,7 @@ namespace BookMania
                 options.EnableDetailedErrors();
             });
 
-            services.AddDefaultIdentity<ApplicationUser>(opts =>
+            services.AddIdentity<ApplicationUser, IdentityRole<int>>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;
                 opts.Password.RequiredLength = 4;
@@ -66,6 +66,9 @@ namespace BookMania
             });
 
             services.AddScoped<IBook, BookService>();
+            services.AddScoped<IAuthor, AuthorService>();
+            services.AddScoped<IPublisher, PublisherService>();
+            services.AddScoped<ICategory, CategoryService>();
             services.AddScoped<IApplicationUser, UserService>();
 
             services.Configure<GoogleApiOptions>(Configuration);

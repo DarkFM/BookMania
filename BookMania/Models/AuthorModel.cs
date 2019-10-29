@@ -1,6 +1,6 @@
-﻿namespace BookMania.ViewModels
+﻿namespace BookMania.Models
 {
-    public class AuthorViewModel
+    public class AuthorModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

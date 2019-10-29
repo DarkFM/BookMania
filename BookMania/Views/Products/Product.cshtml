@@ -1,4 +1,4 @@
-﻿@model BookDetailsViewModel
+﻿@*@model BookDetailsViewModel
 @{
     ViewData["Title"] = "Product";
 }
@@ -47,7 +47,6 @@
                             {
                                 <i class="far fa-heart"></i>
                             }
-                            @*<img src="~/images/heart-regular.svg" />*@
                         </a>
                     </div>
                 </form>
@@ -110,25 +109,8 @@
             </div>
         </div>
     </section>
-</section>
+</section>*@
 
-@*<div>Average rating: @Model.AverageRating</div>
-    <div>BookId: @Model.BookId</div>
-    <div>Title: @Model.Title</div>
-    <div>Authors: @string.Join(",", Model.Authors)</div>
-    <div>Price: @Model.Price</div>
-    <div>Publisher: @Model.Publisher</div>
-    <div>Published Date: @Model.PublishedDate</div>
-    <div>IsFavorite: @Model.IsFavorite</div>
-    <div>ImageUrl: @Model.ImageUrl</div>
-    <div>Description: @Model.Description</div>
-
-    @foreach (var review in Model.Reviews)
-    {
-        <div>@review?.Rating</div>
-        <div>@review.ReviewText</div>
-        <div>@review.UserName</div>
-    }*@
 
 @section Scripts {
     <script>

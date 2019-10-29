@@ -1,6 +1,6 @@
-﻿namespace BookMania.ViewModels
+﻿namespace BookMania.Models
 {
-    public class PublisherViewModel
+    public class CategoryModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

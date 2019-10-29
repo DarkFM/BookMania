@@ -1,9 +1,10 @@
-﻿namespace BookMania
+﻿namespace BookMania.Models
 {
-    public class ReviewViewModel
+    public class ReviewModel
     {
         public string UserName { get; set; }
+        public int? Rating { get; set; }
         public string ReviewText { get; set; }
-        public decimal? Rating { get; set; }
+
     }
 }
