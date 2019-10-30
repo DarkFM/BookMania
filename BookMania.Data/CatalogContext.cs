@@ -20,7 +20,6 @@ namespace BookMania.Data
         public DbSet<BookCategory> BookCategories { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
         public DbSet<Review> Reviews { get; set; }
-
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
 

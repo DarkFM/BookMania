@@ -1,8 +1,7 @@
 ﻿
-@*@using System.Globalization;
 @using Microsoft.AspNetCore.Http.Extensions;
 
-@model CatalogViewModel
+@model ProductListingVM
 
 @{
     ViewData["Title"] = "Favorites";
@@ -13,5 +12,106 @@
     <header class="page-heading">
         Favorites
     </header>
-    <partial name="_ProductListPartial" model="@Model" />
-</section>*@
+    <form class="product-list" asp-controller="Products" asp-action="Favorite" method="get">
+        <partial name="_ProductListPartial" model="@Model" view-data="new ViewDataDictionary(this.ViewData)" />
+    </form>
+</section>
+
+@section Scripts {
+    <script>
+        /**
+         * Handles the change event for the "All' checkbox.
+         * @@param {Event} ev The event object.
+         */
+        function topCheckboxEventHandler(ev) {
+            const { target } = ev;
+            const siblingCheckboxes = target
+                .closest(".accordion__content")
+                .querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
+
+            if (target.checked) {
+                target.disabled = true;
+                siblingCheckboxes.forEach(x => x.checked = false)
+            }
+        }
+
+        /**
+         * Handles the change event for all sibling checkboxes.
+         * @@param { Event } ev The event object.
+         */
+        function siblingCheckboxEventHandler(ev) {
+            const { target } = ev;
+            const parentContainer = target.closest(".accordion__content");
+            const topCheckbox = parentContainer
+                .querySelector('.filter-option:first-of-type > input[type="checkbox"]');
+            const siblings = parentContainer
+                .querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
+
+            if (!Array.from(siblings).some(el => el.checked)) {
+                topCheckbox.checked = true;
+                topCheckbox.disabled = true;
+            }
+
+            if (target.checked) {
+                topCheckbox.checked = false;
+                topCheckbox.disabled = false;
+            }
+        }
+
+        /**
+         * Handles click events on the show more button on an accordion
+         * @@param { Event } ev The raised event
+         */
+        function expandAccordion(ev) {
+            const { target } = ev;
+            const parent = target.parentNode;
+
+            if (!target.classList.contains('show-more'))
+                return;
+            // swap the display texts
+            const currentDisplayText = target.innerText;
+            const textToDisplay = target.dataset.hiddenDisplay;
+            target.innerText = textToDisplay;
+            target.dataset.hiddenDisplay = currentDisplayText;
+
+            const isParentExpanded = Boolean(+target.dataset.fullHeight);
+            if (isParentExpanded == false) {
+                target.setAttribute('style', 'position: relative');
+                parent.setAttribute('style', "height: 400px; overflow: scroll;")
+                target.dataset.fullHeight = 1;
+            } else {
+                parent.scrollTop = 0;
+                target.setAttribute('style', '');
+                parent.setAttribute('style', '')
+                target.dataset.fullHeight = 0;
+            }
+        }
+
+        /**
+         * This funciton resets all filters applied to the page
+         * @@param { Event } ev The event object
+         */
+        function resetAllFilters(ev) {
+            topCheckBoxes.forEach(x => (x.checked = true, x.disabled = true));
+            siblingCheckboxes.forEach(x => x.checked = false);
+        }
+
+        /**
+         * Resets the current page to 1
+         * @@param { Event } ev The raised event
+         */
+        function resetPageIndex(ev) {
+            document.querySelector('.paging__pageIndex-input').value = 1;
+            document.querySelector('form.product-list').submit();
+        }
+
+        const topCheckBoxes = document.querySelectorAll('.filter-option:first-of-type > input[type="checkbox"]');
+        const siblingCheckboxes = document.querySelectorAll('.filter-option:nth-child(n+2) > input[type="checkbox"]');
+
+        document.querySelector('.left-panel').addEventListener('click', expandAccordion);
+        topCheckBoxes.forEach(x => x.addEventListener('change', topCheckboxEventHandler));
+        siblingCheckboxes.forEach(x => x.addEventListener('change', siblingCheckboxEventHandler));
+        document.querySelector('.reset-filters').addEventListener('click', resetAllFilters);
+        document.querySelector('.apply-filters').onclick = resetPageIndex;//addEventListener('click', resetPageIndex)
+    </script>
+}

@@ -1,5 +1,4 @@
-﻿@using System.Globalization;
-@using Microsoft.AspNetCore.Http.Extensions;
+﻿@using Microsoft.AspNetCore.Http.Extensions;
 
 @model ProductListingVM
 
@@ -12,7 +11,9 @@
     <header class="page-heading">
         all products
     </header>
-    <partial name="_ProductListPartial" model="@Model" view-data="new ViewDataDictionary(this.ViewData)" />
+    <form class="product-list" asp-controller="Products" asp-action="Index" method="get">
+        <partial name="_ProductListPartial" model="@Model" view-data="new ViewDataDictionary(this.ViewData)" />
+    </form>
 
 </section>
 

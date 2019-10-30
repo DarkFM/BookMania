@@ -18,36 +18,40 @@ namespace BookMania.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ILogger<ProductsController> _logger;
         private readonly IBook _bookService;
         private readonly IAuthor _authorService;
         private readonly ICategory _categoryService;
         private readonly IPublisher _publisherService;
+        private readonly IApplicationUser _userService;
+        private readonly ILogger<ProductsController> _logger;
 
         public ProductsController(
-            ILogger<ProductsController> logger,
             IBook bookService,
             IAuthor authorService,
             ICategory categoryService,
-            IPublisher publisherService)
+            IPublisher publisherService,
+            IApplicationUser userService,
+            ILogger<ProductsController> logger)
         {
             _logger = logger;
             _bookService = bookService;
             _authorService = authorService;
             _categoryService = categoryService;
             _publisherService = publisherService;
+            _userService = userService;
         }
 
         [HttpGet]
         [SeperatedQueryString]
-        public async Task<IActionResult> Index([FromQuery]FilterResponseViewModel filterModel)
+        public async Task<IActionResult> Index([FromQuery]FilterResponseVM filterModel)
         {
-            filterModel.CurrentPage = filterModel.CurrentPage < 1 ? 1 : filterModel.CurrentPage;
             int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId);
+            filterModel.CurrentPage = filterModel.CurrentPage < 1 ? 1 : filterModel.CurrentPage;
             var (categories, authors, publishers, currPage) = filterModel;
 
             var paginatedBooks = await _bookService.GetFilteredBooksAsync(categories, authors, publishers, 30, currPage);
             var bookModels = paginatedBooks.Select(book => book.ToBookModel(book.Favorites.Any(f => f.UserId == userId)));
+            
             var allAuthors = _authorService.GetAll().Select(a => a.ToAuthorModel(filterModel.Authors.Contains(a.Id)));
             var allPublishers = _publisherService.GetAll().Select(p => p.ToPublisherModel(filterModel.Publishers.Contains(p.Id)));
             var allCategories = _categoryService.GetAll().Select(c => c.ToCategoryModel(filterModel.Categories.Contains(c.Id)));
@@ -65,42 +69,78 @@ namespace BookMania.Controllers
                 Publishers = allPublishers
             };
 
-
-            ViewData["Categories"] = string.Join(",", filterModel.Categories);
-            ViewData["Authors"] = string.Join(",", filterModel.Authors);
-            ViewData["Publishers"] = string.Join(",", filterModel.Publishers);
+            AddQueryToViewData(filterModel);
             _logger.LogDebug(string.Join(", ", filterModel.Publishers));
 
             return View(model);
         }
 
         [HttpGet]
-        //[Authorize]
-        public async Task<IActionResult> Favorites(FilterResponseViewModel viewModel)
+        [Authorize]
+        public async Task<IActionResult> Favorites(FilterResponseVM filterModel)
         {
-            //viewModel.CurrentPage = viewModel.CurrentPage < 1 ? 1 : viewModel.CurrentPage;
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId);
+            filterModel.CurrentPage = filterModel.CurrentPage < 1 ? 1 : filterModel.CurrentPage;
+            var (categories, authors, publishers, currPage) = filterModel;
 
-            //ViewData["Categories"] = string.Join(",", viewModel.Categories);
-            //ViewData["Authors"] = string.Join(",", viewModel.Authors);
-            //ViewData["Publishers"] = string.Join(",", viewModel.Publishers);
-            ////_logger.LogDebug(string.Join(", ", viewModel.Publishers));
+            var favoriteBooks = await _bookService.GetFilteredBooksAsync(categories, authors, publishers, 30, currPage, userId);
+            var allFavoriteBooks = await _bookService.GetFavoriteBooksAsync(userId);
 
-            //var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            //int.TryParse(userId, out int id);
-            //var model = await userService.GetFavoritesAsync(viewModel, id);
-            //return View(model);
-            return View();
+            var bookModels = favoriteBooks.Select(book => book.ToBookModel(true));
+
+            var relatedAuthors = allFavoriteBooks
+                .SelectMany(book => book.BookAuthors)
+                .Select(ba => ba.Author)
+                .Distinct()
+                .Select(a => a.ToAuthorModel());
+
+            var relatedCategories = allFavoriteBooks
+                .SelectMany(book => book.BookCategories)
+                .Select(ba => ba.Category)
+                .Distinct()
+                .Select(c => c.ToCategoryModel());
+
+            var relatedPublishers = allFavoriteBooks
+                .Select(book => book.Publisher)
+                .Distinct()
+                .Select(p => p.ToPublisherModel());
+
+            var model = new ProductListingVM
+            {
+                BookItems = bookModels,
+                TotalItemsFound = favoriteBooks.TotalItems,
+                CurrentPage = favoriteBooks.CurrentPage,
+                TotalPages = favoriteBooks.TotalPages,
+                HasNextPage = favoriteBooks.HasNextPage,
+                HasPrevPage = favoriteBooks.HasPreviousPage,
+                Authors = relatedAuthors,
+                Categories = relatedCategories,
+                Publishers = relatedPublishers
+            };
+
+            AddQueryToViewData(filterModel);
+
+            return View(model);
+        }
+
+        private void AddQueryToViewData(FilterResponseVM filterModel)
+        {
+            ViewData["Categories"] = string.Join(",", filterModel.Categories);
+            ViewData["Authors"] = string.Join(",", filterModel.Authors);
+            ViewData["Publishers"] = string.Join(",", filterModel.Publishers);
         }
 
         [HttpGet]
         public async Task<IActionResult> Product(int bookId)
         {
-            //var userIdStr = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            //int.TryParse(userIdStr, out int userId);
-            //var vm = await _bookDetailsService.GetBookDetailsAsync(bookId, userId);
-            //return View(vm);
-            return View();
+            int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int userId);
+            var book = await _bookService.GetByIdAsync(bookId);
+            var user = await _userService.GetByIdAsync(userId);
 
+            var isFavorite = user.Favorites.Any(f => f.BookId == book.Id);
+            var model = new BookDetailsVM { Book = book.ToBookModel(isFavorite) };
+
+            return View(model);
         }
     }
 }

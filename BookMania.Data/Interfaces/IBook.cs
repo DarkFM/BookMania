@@ -18,8 +18,12 @@ namespace BookMania.Data.Interfaces
             IEnumerable<int> categories,
             IEnumerable<int> authors,
             IEnumerable<int> publishers,
-            int pageSize, int currentPage
+            int pageSize, 
+            int currentPage, 
+            int? userId = default
         );
+
+        Task<IEnumerable<Book>> GetFavoriteBooksAsync(int userId);
 
         Task<int> GetMaxPublishedYearAsync();
 

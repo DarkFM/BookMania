@@ -17,9 +17,4 @@
     <ProjectReference Include="..\BookMania.Service\BookMania.Service.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Home\" />
-  </ItemGroup>
-
 </Project>

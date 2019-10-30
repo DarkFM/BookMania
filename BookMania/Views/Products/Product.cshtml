@@ -1,13 +1,14 @@
-﻿@*@model BookDetailsViewModel
+﻿@model BookDetailsVM
 @{
     ViewData["Title"] = "Product";
+    string bookAuthors = string.Join(", ", Model.Book.Authors.Select(a => a.Name));
 }
 
 <section>
     <header class="page-heading">
-        <p class="book-title">@Model.Title</p>
+        <p class="book-title">@Model.Book.Title</p>
         <div class="categories">
-            @foreach (var category in Model.Categories)
+            @foreach (var category in Model.Book.Categories)
             {
                 <a class="category-icon" asp-action="Index" asp-route-c="@category.Id">@category.Name</a>
             }
@@ -22,13 +23,13 @@
     <section class="product-info">
         <div class="product-info__top">
             <div class="product-info__img-container">
-                <img class="product-info__img" src="@Model.ImageUrl" />
+                <img class="product-info__img" src="@Model.Book.ImageUrlLarge" />
             </div>
             <div class="product-cart">
-                <header class="product-cart__title">@Model.Title</header>
+                <header class="product-cart__title">@Model.Book.Title</header>
                 <div class="product-cart__pricing">
-                    <span class="product-cart__price">@Model.Price.ToString("C")</span>
-                    <span class="product-cart__author">Authors: @string.Join(", ", Model.Authors)</span>
+                    <span class="product-cart__price">@Model.Book.Price.ToString("C")</span>
+                    <span class="product-cart__author">Authors: @bookAuthors</span>
                 </div>
                 <form method="post" class="product-cart__quantity">
                     <label class="nav-item-quantity">
@@ -36,10 +37,10 @@
                         <input type="number" name="quantity" value="1" min="1" />
                     </label>
                     <div class="btn-group">
-                        <input type="text" name="bookId" value="@Model.BookId" hidden />
+                        <input type="text" name="bookId" value="@Model.Book.Id" hidden />
                         <button type="submit" class="add-to-cart btn btn--secondary">add to cart</button>
                         <a class="favorite" href="#">
-                            @if (Model.IsFavorite)
+                            @if (Model.Book.IsFavorite)
                             {
                                 <i class="fas fa-heart"></i>
                             }
@@ -59,20 +60,20 @@
             </header>
             <div class="product-info__contents">
                 <div class="tab-1 active-tab">
-                    <header class="product-info__description">@Model.Description</header>
+                    <header class="product-info__description">@Model.Book.Description</header>
                     <table class="product-info__table">
                         <tbody>
                             <tr class="product-info__desc-row">
                                 <th>Book Author(s)</th>
-                                <td>@string.Join(",", Model.Authors)</td>
+                                <td>@bookAuthors</td>
                             </tr>
                             <tr class="product-info__desc-row">
                                 <th>Publisher</th>
-                                <td>@Model.Publisher</td>
+                                <td>@Model.Book.Publisher</td>
                             </tr>
                             <tr class="product-info__desc-row">
                                 <th>Year Published</th>
-                                <td>@Model.PublishedDate.Year</td>
+                                <td>@Model.Book.PublishedDate.Year</td>
                             </tr>
                         </tbody>
                     </table>
@@ -90,7 +91,7 @@
                         </label>
                     </section>
                     <section class="other-reviews">
-                        @foreach (var review in Model.Reviews)
+                        @foreach (var review in Model.Book.Reviews)
                         {
                             <div class="review">
                                 <h6>@review.UserName</h6>
@@ -109,7 +110,7 @@
             </div>
         </div>
     </section>
-</section>*@
+</section>
 
 
 @section Scripts {

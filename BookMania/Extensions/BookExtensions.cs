@@ -19,6 +19,7 @@ namespace BookMania.Extensions
                 ImageUrl = book.ImageUrl,
                 Description = book.Description,
                 PublishedDate = book.PublishedDate,
+                ImageUrlLarge = book.ImageUrlLarge,
                 Publisher = book.Publisher.ToPublisherModel(),
                 Reviews = book.Reviews.Select(r => r.ToReviewModel()),
                 Authors = book.BookAuthors.Select(ba => ba.Author.ToAuthorModel()),

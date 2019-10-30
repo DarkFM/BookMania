@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookMania.ViewModels
 {
-    public class FilterResponseViewModel
+    public class FilterResponseVM
     {
         [BindProperty(Name = "C")]
         public IEnumerable<int> Categories { get; set; } = new List<int>();

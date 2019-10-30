@@ -22,5 +22,16 @@ namespace BookMania.Data.Models
         public int Id { get; private set; }
         public string Name { get; set; }
         public ICollection<Book> Books { get; set; }
+
+        public override bool Equals(object x)
+        {
+            var newX = x as Publisher;
+            return newX.Name == this.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return System.HashCode.Combine(Id);
+        }
     }
 }

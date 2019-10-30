@@ -25,29 +25,6 @@ namespace BookMania.Service
             throw new NotImplementedException();
         }
 
-        //public async Task<BookDetailsViewModel> GetBookDetailsAsync(int bookId, int userId)
-        //{
-        //    var book = await _bookRepository.GetByIdAsync(bookId);
-        //    var vm = new BookDetailsViewModel
-        //    {
-        //        BookId = book.Id,
-        //        Categories = book.BookCategories
-        //            .Select(bc => new CategoryViewModel { Id = bc.CategoryId, Name = bc.Category.Name }),
-        //        Authors = book.BookAuthors.Select(b => b.Author.Name),
-        //        Description = book.Description,
-        //        ImageUrl = book.ImageUrlLarge,
-        //        IsFavorite = book.Favorites.Any(f => f.UserId == userId),
-        //        Price = book.Price,
-        //        PublishedDate = book.PublishedDate,
-        //        Publisher = book.Publisher.Name,
-        //        Title = book.Title,
-        //        Reviews = book.Reviews.Select(r => new ReviewViewModel() { Rating = r.Rating, ReviewText = r.ReviewText, UserName = r.User.UserName }),
-        //        AverageRating = (decimal?)book.Reviews.Average(r => r.Rating)
-        //    };
-
-        //    return vm;
-        //}
-
         public async Task<Book> GetByIdAsync(int bookId)
         {
             return await GetIncludes().SingleOrDefaultAsync(b => b.Id == bookId);
@@ -57,7 +34,9 @@ namespace BookMania.Service
             IEnumerable<int> categories,
             IEnumerable<int> authors,
             IEnumerable<int> publishers,
-            int pageSize, int currentPage)
+            int pageSize,
+            int currentPage,
+            int? userId = default)
         {
             var query = GetIncludes();
 
@@ -70,8 +49,17 @@ namespace BookMania.Service
             if (publishers.Any())
                 query = query.Where(b => publishers.Contains(b.PublisherId));
 
-            return await PaginatedList<Book>.CreateAsync(query, currentPage, pageSize);
+            if (userId != null)
+                query = query.Where(b => b.Favorites.Any(f => f.UserId == userId));
 
+            return await PaginatedList<Book>.CreateAsync(query, currentPage, pageSize);
+        }
+
+        public async Task<IEnumerable<Book>> GetFavoriteBooksAsync(int userId)
+        {
+            return await GetIncludes()
+                .Where(b => b.Favorites.Any(f => f.UserId == userId))
+                .ToListAsync();
         }
 
         public Task<int> GetMaxPublishedYearAsync()
@@ -92,7 +80,7 @@ namespace BookMania.Service
                     .ThenInclude(r => r.User)
                 .Include(b => b.Favorites)
                 // Note: Might Not need this
-                    .ThenInclude(f => f.User)
+                    //.ThenInclude(f => f.User)
                 .Include(b => b.BookAuthors)
                     .ThenInclude(ba => ba.Author)
                 .Include(b => b.BookCategories)
